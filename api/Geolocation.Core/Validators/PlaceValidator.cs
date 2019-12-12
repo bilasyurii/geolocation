@@ -13,6 +13,16 @@ namespace Geolocation.Core.Validators
             RuleFor(place => place.Longitude)
                 .Must(lng => lng >= -180 && lng <= 180)
                 .WithMessage("Longitude must be in range [-180;180] (inclusive).");
+            RuleFor(place => place.Name)
+                .NotNull()
+                .WithMessage("Name of place can't be null.")
+                .NotEmpty()
+                .WithMessage("Name of place can't be empty.")
+                .MaximumLength(32)
+                .WithMessage("Name length can't be longer than 32 symbols.");
+            RuleFor(place => place.Description)
+                .MaximumLength(256)
+                .WithMessage("Description length can't be longer than 256 symbols.");
         }
     }
 }
