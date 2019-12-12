@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Geolocation.Core.Abstractions.Services;
+using Geolocation.Core.Entities;
+using System;
 
 namespace Geolocation.Controllers
 {
@@ -7,21 +10,80 @@ namespace Geolocation.Controllers
     [Route("[controller]")]
     public class PlaceController : ControllerBase
     {
-        public PlaceController() { }
+        private readonly IPlaceService _placeService;
+        public PlaceController(IPlaceService placeService) 
+        {
+            _placeService = placeService;
+        }
 
         [HttpGet]
-        public IEnumerable<string> Get()
+        public ActionResult<List<Place>> Get()
         {
-            return null;
-            /*
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            try
             {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            })
-            .ToArray();*/
+                var places = _placeService.Get();
+                return Ok(places);
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpGet("{id}")]
+        public ActionResult<Place> GetById([FromRoute] int id)
+        {
+            try
+            {
+                var place = _placeService.GetById(id);
+                return Ok(place);
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpPost]
+        public ActionResult<Place> Post([FromBody] Place place)
+        {
+            try
+            {
+                var insertedPlace = _placeService.Insert(place);
+                return Ok(insertedPlace);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPut]
+        public ActionResult<Place> Put([FromBody] Place place)
+        {
+            try
+            {
+                var updatedPlace = _placeService.Update(place);
+                return Ok(updatedPlace);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete([FromRoute] int id)
+        {
+            try
+            {
+                _placeService.Delete(id);
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
     }
 }

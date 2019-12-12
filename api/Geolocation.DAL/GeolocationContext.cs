@@ -13,7 +13,7 @@ namespace Geolocation.DAL
         {
             modelBuilder.Entity<Place>(entity =>
             {
-                entity.Property(place => place.Name).HasMaxLength(32);
+                entity.Property(place => place.Name).HasMaxLength(32).IsRequired();
                 entity.Property(place => place.Description).HasMaxLength(256);
                 entity.Property<decimal>(place => place.Latitude).HasColumnType("decimal(8, 6)");
                 entity.Property<decimal>(place => place.Longitude).HasColumnType("decimal(9, 6)");

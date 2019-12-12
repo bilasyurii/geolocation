@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace Geolocation.Services
 {
-    public class PlaceService : IPlaceService<int>
+    public class PlaceService : IPlaceService
     {
         private readonly IUnitOfWork _unitOfWork;
 
