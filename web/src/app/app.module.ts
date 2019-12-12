@@ -1,6 +1,8 @@
+import { environment } from './../environments/environment.prod';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
+import { AgmCoreModule } from '@agm/core';
 
 import { AppComponent } from './components/app/app.component';
 
@@ -11,7 +13,10 @@ import { AppComponent } from './components/app/app.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    AgmCoreModule.forRoot({
+      apiKey: environment.googleMapsAPI
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
