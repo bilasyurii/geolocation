@@ -11,7 +11,7 @@ namespace Geolocation.Controllers
     public class PlaceController : ControllerBase
     {
         private readonly IPlaceService _placeService;
-        public PlaceController(IPlaceService placeService) 
+        public PlaceController(IPlaceService placeService)
         {
             _placeService = placeService;
         }
