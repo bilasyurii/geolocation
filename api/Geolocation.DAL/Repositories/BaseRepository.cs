@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Geolocation.Core.Abstractions.Repositories;
 using System.Linq;
 using System.Linq.Expressions;
+using Geolocation.Core.ErrorHandling;
 
 namespace Geolocation.DAL.Repositories
 {
@@ -53,7 +54,7 @@ namespace Geolocation.DAL.Repositories
             if (found != null)
                 _context.Set<TEntity>().Remove(found);
             else
-                throw new Exception("Could not delete because entity not found.");
+                throw new NotFoundException("an entity", $"id {id}");
         }
 
         public void DeleteMany(IEnumerable<TEntity> entities)

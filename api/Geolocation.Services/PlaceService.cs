@@ -2,6 +2,7 @@
 using Geolocation.Core.Abstractions;
 using Geolocation.Core.Abstractions.Services;
 using Geolocation.Core.Entities;
+using Geolocation.Core.ErrorHandling;
 using Geolocation.Core.Validators;
 using System;
 using System.Collections.Generic;
@@ -28,14 +29,21 @@ namespace Geolocation.Services
         {
             Place place = _unitOfWork.Places.GetById(id);
             if (place == null)
-                throw new Exception($"Couldn't find a place with id {id}");
+                throw new NotFoundException("a place", $"id {id}");
             return place;
+        }
+
+        private void PerformValidation(Place place)
+        {
+            PlaceValidator validator = new PlaceValidator();
+            var validationResult = validator.Validate(place);
+            if (!validationResult.IsValid)
+                throw new FluentValidationException(validationResult.Errors);
         }
 
         public Place Insert(Place place)
         {
-            PlaceValidator validator = new PlaceValidator();
-            validator.ValidateAndThrow(place);
+            PerformValidation(place);
             _unitOfWork.Places.Add(place);
             _unitOfWork.SaveChanges();
             return place;
@@ -43,6 +51,7 @@ namespace Geolocation.Services
 
         public Place Update(Place place)
         {
+            PerformValidation(place);
             var existingPlace = _unitOfWork.Places.GetById(place.Id);
             existingPlace.Name = place.Name;
             existingPlace.Description = place.Description;

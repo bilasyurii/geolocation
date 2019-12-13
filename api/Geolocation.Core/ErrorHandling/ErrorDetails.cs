@@ -1,11 +1,11 @@
 ﻿using Newtonsoft.Json;
 
-namespace Geolocation.ErrorHandling
+namespace Geolocation.Core.ErrorHandling
 {
     public class ErrorDetails
     {
         public int StatusCode { get; set; }
-        public string Message { get; set; }
+        public object Information { get; set; }
 
         public override string ToString()
         {

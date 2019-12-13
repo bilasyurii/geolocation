@@ -2,8 +2,9 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Diagnostics;
 using System.Net;
+using Geolocation.Core.ErrorHandling;
 
-namespace Geolocation.ErrorHandling
+namespace Geolocation.Extensions
 {
     public static class ExceptionMiddlewareExtensions
     {
@@ -22,7 +23,7 @@ namespace Geolocation.ErrorHandling
                         await context.Response.WriteAsync(new ErrorDetails()
                         {
                             StatusCode = context.Response.StatusCode,
-                            Message = "Internal Server Error."
+                            Information = "Internal Server Error."
                         }.ToString());
                     }
                 });

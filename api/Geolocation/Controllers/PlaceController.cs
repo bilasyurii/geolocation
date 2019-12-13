@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Geolocation.Core.Abstractions.Services;
 using Geolocation.Core.Entities;
 using System;
+using Geolocation.Core.ErrorHandling;
+using FluentValidation;
 
 namespace Geolocation.Controllers
 {
@@ -19,56 +21,49 @@ namespace Geolocation.Controllers
         [HttpGet]
         public ActionResult<List<Place>> Get()
         {
-            try
-            {
-                var places = _placeService.Get();
-                return Ok(places);
-            }
-            catch (Exception)
-            {
-                return NotFound();
-            }
+            var places = _placeService.Get();
+            return Ok(places);
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Place> GetById([FromRoute] int id)
+        public IActionResult GetById([FromRoute] int id)
         {
             try
             {
                 var place = _placeService.GetById(id);
                 return Ok(place);
             }
-            catch (Exception)
+            catch (NotFoundException notFoundException)
             {
-                return NotFound();
+                return NotFound(notFoundException.ToString());
             }
         }
 
         [HttpPost]
-        public ActionResult<Place> Post([FromBody] Place place)
+        public IActionResult Post([FromBody] Place place)
         {
             try
             {
                 var insertedPlace = _placeService.Insert(place);
-                return Ok(insertedPlace);
+                return Created($"/place/{insertedPlace.Id}", insertedPlace);
             }
-            catch (Exception)
+            catch (FluentValidationException validationException)
             {
-                return BadRequest();
+                return BadRequest(validationException.ToString());
             }
         }
 
         [HttpPut]
-        public ActionResult<Place> Put([FromBody] Place place)
+        public IActionResult Put([FromBody] Place place)
         {
             try
             {
                 var updatedPlace = _placeService.Update(place);
                 return Ok(updatedPlace);
             }
-            catch (Exception)
+            catch (FluentValidationException validationException)
             {
-                return BadRequest();
+                return BadRequest(validationException.ToString());
             }
         }
 
@@ -78,11 +73,11 @@ namespace Geolocation.Controllers
             try
             {
                 _placeService.Delete(id);
-                return Ok();
+                return NoContent();
             }
-            catch (Exception)
+            catch (NotFoundException notFoundException)
             {
-                return BadRequest();
+                return NotFound(notFoundException.ToString());
             }
         }
     }

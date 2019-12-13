@@ -16,10 +16,12 @@ namespace Geolocation.Core.Validators
             RuleFor(place => place.Name)
                 .NotNull()
                 .WithMessage("Name of place can't be null.")
-                .NotEmpty()
-                .WithMessage("Name of place can't be empty.")
                 .MaximumLength(32)
                 .WithMessage("Name length can't be longer than 32 symbols.");
+            RuleFor(place => place.Name)
+                .NotEmpty()
+                .When(place => place.Name != null)
+                .WithMessage("Name of place can't be empty.");
             RuleFor(place => place.Description)
                 .MaximumLength(256)
                 .WithMessage("Description length can't be longer than 256 symbols.");
