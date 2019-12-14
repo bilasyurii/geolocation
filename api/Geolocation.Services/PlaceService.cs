@@ -1,10 +1,8 @@
-﻿using FluentValidation;
-using Geolocation.Core.Abstractions;
+﻿using Geolocation.Core.Abstractions;
 using Geolocation.Core.Abstractions.Services;
 using Geolocation.Core.Entities;
 using Geolocation.Core.ErrorHandling;
 using Geolocation.Core.Validators;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -53,6 +51,8 @@ namespace Geolocation.Services
         {
             PerformValidation(place);
             var existingPlace = _unitOfWork.Places.GetById(place.Id);
+            if (existingPlace == null)
+                throw new NotFoundException("a place", $"id {place.Id}");
             existingPlace.Name = place.Name;
             existingPlace.Description = place.Description;
             existingPlace.Latitude = place.Latitude;

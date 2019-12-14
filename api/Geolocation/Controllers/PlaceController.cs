@@ -2,9 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Geolocation.Core.Abstractions.Services;
 using Geolocation.Core.Entities;
-using System;
 using Geolocation.Core.ErrorHandling;
-using FluentValidation;
 
 namespace Geolocation.Controllers
 {
@@ -64,6 +62,10 @@ namespace Geolocation.Controllers
             catch (FluentValidationException validationException)
             {
                 return BadRequest(validationException.ToString());
+            }
+            catch (NotFoundException notFoundException)
+            {
+                return NotFound(notFoundException.ToString());
             }
         }
 
