@@ -8,9 +8,9 @@ namespace Geolocation.Extensions
 {
     public static class ExceptionMiddlewareExtensions
     {
-        public static void ConfigureExceptionHandler(this IApplicationBuilder app)
+        public static IApplicationBuilder ConfigureExceptionHandler(this IApplicationBuilder app)
         {
-            app.UseExceptionHandler(appError =>
+            return app.UseExceptionHandler(appError =>
             {
                 appError.Run(async context =>
                 {

@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  googleMapsAPI: 'AIzaSyCxmP9QCuTtDTjkDmt39eMd4piQkhhkTMk'
+  googleMapsAPIKey: 'AIzaSyCxmP9QCuTtDTjkDmt39eMd4piQkhhkTMk',
+  geolocationAPI: 'https://localhost:44314/'
 };

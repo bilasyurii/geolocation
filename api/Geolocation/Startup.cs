@@ -24,6 +24,12 @@ namespace Geolocation
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options => {
+                options.AddPolicy("AllowEverything", builder => 
+                    builder.AllowAnyOrigin()
+                           .AllowAnyMethod()
+                           .AllowAnyHeader());
+            });
             services.AddControllers();
 
             var connectionString = Configuration.GetConnectionString("MainSqlServer");
@@ -44,6 +50,8 @@ namespace Geolocation
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors("AllowEverything");
 
             app.ConfigureExceptionHandler();
 
