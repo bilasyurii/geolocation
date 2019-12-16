@@ -1,0 +1,69 @@
+<mat-sidenav-container>
+  <mat-sidenav #sidenav role="navigation" [autoFocus]="false" class="side-nav">
+    <mat-nav-list>
+      <a mat-list-item routerLink="/" class="sidenav-item-link">
+        <mat-icon class="icon nav-item-icon">home</mat-icon>
+
+        <span class="label">Home</span>
+      </a>
+      <a mat-list-item routerLink="/places" class="sidenav-item-link">
+        <mat-icon class="icon nav-item-icon">where_to_vote</mat-icon>
+
+        <span class="label">Places</span>
+      </a>
+      <a mat-list-item routerLink="/map" class="sidenav-item-link">
+        <mat-icon class="icon nav-item-icon">map</mat-icon>
+
+        <span class="label">Map</span>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="sidenav-container">
+    <mat-toolbar color="primary">
+      <div
+        class="hamburger"
+        *ngIf="(isHandset | async)!.matches">
+        <button mat-icon-button (click)="sidenav.toggle()">
+          <mat-icon >menu</mat-icon>
+        </button>
+      </div>
+
+      <div class="title">
+        <a routerLink="/" class="nav-item-link">Geolocation</a>
+      </div>
+
+
+      <div class="spacer"></div>
+
+      <div>
+        <ul
+          class="nav-items"
+          *ngIf="!(isHandset | async)!.matches">
+          <li>
+            <a routerLink="/" class="nav-item-link">
+              <mat-icon class="icon nav-item-icon">home</mat-icon>
+
+              <span class="label">Home</span>
+            </a>
+          </li>
+          <li>
+            <a routerLink="/places" class="nav-item-link">
+              <mat-icon class="icon nav-item-icon">where_to_vote</mat-icon>
+
+              <span class="label">Places</span>
+            </a>
+          </li>
+          <li>
+            <a routerLink="/map" class="nav-item-link">
+              <mat-icon class="icon nav-item-icon">map</mat-icon>
+
+              <span class="label">Map</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </mat-toolbar>
+    <ng-content></ng-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>
