@@ -12,10 +12,11 @@ import { GeolocationService } from './services/geolocation.service';
 import { AppComponent } from './components/app/app.component';
 import { PlacesPageComponent } from './components/places-page/places-page.component';
 import { MapPageComponent } from './components/map-page/map-page.component';
-import { PlaceComponent } from './components/places-page/place/place.component';
 import { HeaderComponent } from './components/header/header.component';
 import { PlaceAddComponent } from './components/places-page/place-add/place-add.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { PlacesListComponent } from './components/places-page/places-list/places-list.component';
+import { PlaceComponent } from './components/places-page/places-list/place/place.component';
 
 
 @NgModule({
@@ -23,10 +24,11 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
     AppComponent,
     PlacesPageComponent,
     MapPageComponent,
-    PlaceComponent,
     HeaderComponent,
     PlaceAddComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    PlacesListComponent,
+    PlaceComponent,
   ],
   imports: [
     BrowserModule,

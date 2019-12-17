@@ -1,5 +1,5 @@
 <section>
-  <mat-tab-group dynamicHeight="True" mat-stretch-tabs>
+  <mat-tab-group dynamicHeight="true" mat-stretch-tabs>
     <mat-tab>
       <ng-template mat-tab-label>
         <mat-icon class="icon">
@@ -10,39 +10,47 @@
       </ng-template>
 
       <form [formGroup]="formWithCoords" (ngSubmit)="submitWithCoords()">
-        <p>
-          <label>
-            Name:
-          </label>
-          
-          <input type="text" formControlName="name">
-        </p>
-        <p>
-          <label>
-            Latitude:
-          </label>
-          
-          <input type="text" formControlName="latitude">
-        </p>
-        <p>
-          <label>
-            Longitude:
-          </label>
-          
-          <input type="text" formControlName="longitude">
-        </p>
-        <p>
-          <label>
-            Description:
-          </label>
-          
-          <textarea formControlName="description" rows="4"></textarea>
-        </p>
-        <p>
-          <button type="submit" [disabled]="!formWithCoords.valid">
-            Add place
-          </button>
-        </p>
+        <mat-form-field>
+          <input 
+            matInput 
+            placeholder="Name" 
+            type="text" 
+            formControlName="name">
+        </mat-form-field>
+        <mat-form-field>
+          <input 
+            matInput 
+            placeholder="Latitude" 
+            type="number" 
+            formControlName="latitude">
+        </mat-form-field>
+        <mat-form-field>
+          <input 
+            matInput 
+            placeholder="Longitude" 
+            type="number" 
+            formControlName="longitude">
+        </mat-form-field>
+        
+        <mat-form-field>
+          <textarea
+            matInput 
+            cdkTextareaAutosize="true"
+            placeholder="Description" 
+            formControlName="description"></textarea>
+        </mat-form-field>
+
+        <button 
+          mat-raised-button 
+          type="submit" 
+          [disabled]="!formWithCoords.valid"
+          color="primary"
+          class="white-text-button">
+          <mat-icon class="icon">
+            add
+          </mat-icon>
+          Add place
+        </button>
       </form>
     </mat-tab>
 
@@ -56,25 +64,34 @@
       </ng-template>
 
       <form [formGroup]="formWithCity" (ngSubmit)="submitWithCity()">
-        <p>
-          <label>
-            City:
-          </label>
-          
-          <input type="text" formControlName="city">
-        </p>
-        <p>
-          <label>
-            Description:
-          </label>
-          
-          <textarea formControlName="description" rows="4"></textarea>
-        </p>
-        <p>
-          <button type="submit" [disabled]="!formWithCity.valid">
-            Add place
-          </button>
-        </p>
+        <mat-form-field>
+          <input 
+            matInput 
+            placeholder="City" 
+            type="text" 
+            formControlName="city">
+        </mat-form-field>
+        
+        <mat-form-field>
+          <textarea
+            matInput
+            cdkTextareaAutosize="true"
+            placeholder="Description" 
+            formControlName="description"></textarea>
+        </mat-form-field>
+
+        <button 
+          mat-raised-button 
+          type="submit" 
+          [disabled]="!formWithCity.valid"
+          color="primary"
+          class="white-text-button">
+          <mat-icon class="icon">
+            add
+          </mat-icon>
+
+          Add place
+        </button>
       </form>
     </mat-tab>
   </mat-tab-group>
