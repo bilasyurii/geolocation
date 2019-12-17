@@ -1,10 +1,16 @@
-<mat-card>
-  <mat-card-header>
-    <mat-card-title>{{ place.Name }}</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    Hello world
-    <span>{{ place.Latitude }}</span>
-    <span>{{ place.Longitude }}</span>
-  </mat-card-content>
+<mat-card class="place-card">
+  <div 
+    class="card-content"
+    [ngClass]="{'content-in-row': !(isHandset | async)!.matches}">
+    <span class="place-title">
+      {{ place.Name }}
+    </span>
+    <div class="coordinates-block">
+      <p>Latitude: {{ place.Latitude }}</p>
+      <p>Longitude: {{ place.Longitude }}</p>
+    </div>
+  </div>
+  <button mat-raised-button color="warn" class="icon-button">
+    <mat-icon>delete</mat-icon>
+  </button>
 </mat-card>

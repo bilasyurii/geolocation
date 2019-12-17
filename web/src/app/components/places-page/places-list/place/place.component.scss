@@ -1,0 +1,34 @@
+.place-title {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.icon-button {
+  padding: 0 6px;
+  min-width: 0;
+  align-self: center;
+}
+
+.place-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  margin-right: 20px;
+}
+
+.coordinates-block {
+  display: inline-block;
+}
+
+.content-in-row {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
