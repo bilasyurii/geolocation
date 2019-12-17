@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+
+import { PlacesService } from './../../../../services/places.service';
+import { Place } from 'src/app/interfaces/place.interface';
+
 
 @Component({
   selector: 'app-place',
   templateUrl: './place.component.html',
   styleUrls: ['./place.component.scss']
 })
-export class PlaceComponent implements OnInit {
+export class PlaceComponent {
+  @Input() place: Place;
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+  constructor(private PlacesService: PlacesService) { }
 }
