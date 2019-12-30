@@ -13,7 +13,7 @@ export class MapPageComponent {
   longitude = 7.809007;
 
   constructor(private geolocationService: GeolocationService) { }
-
+  /*
   onClick() {
     this.geolocationService.getPlaces().subscribe((response: any) => {
       console.log('!!! Result:');
@@ -23,4 +23,5 @@ export class MapPageComponent {
       console.log(error);
     });
   }
+  */
 }
