@@ -9,7 +9,8 @@ import { Observable } from 'rxjs';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-  isHandset: Observable<BreakpointState> = this.breakpointObserver.observe(Breakpoints.HandsetPortrait);
+  isHandset: Observable<BreakpointState> = 
+    this.breakpointObserver.observe(Breakpoints.HandsetPortrait);
 
   constructor(private breakpointObserver: BreakpointObserver) { }
 }

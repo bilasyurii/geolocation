@@ -1,4 +1,4 @@
-<section>
+<section class="mat-card place-add-container">
   <mat-tab-group dynamicHeight="true" mat-stretch-tabs>
     <mat-tab>
       <ng-template mat-tab-label>
@@ -9,7 +9,10 @@
         By coordinates
       </ng-template>
 
-      <form [formGroup]="formWithCoords" (ngSubmit)="submitWithCoords()">
+      <form
+        class="form-in-tab"
+        [formGroup]="formWithCoords" 
+        (ngSubmit)="submitWithCoords()">
         <mat-form-field>
           <input 
             matInput 
@@ -63,7 +66,10 @@
         By city
       </ng-template>
 
-      <form [formGroup]="formWithCity" (ngSubmit)="submitWithCity()">
+      <form
+        class="form-in-tab"
+        [formGroup]="formWithCity" 
+        (ngSubmit)="submitWithCity()">
         <mat-form-field>
           <input 
             matInput 

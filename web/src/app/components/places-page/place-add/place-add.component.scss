@@ -2,7 +2,7 @@ mat-form-field {
   width: 100%;
 }
 
-form {
+.form-in-tab {
   padding: 20px;
 }
 
@@ -11,4 +11,8 @@ form {
   margin: 0 auto;
   color: white;
   padding: 5px 20px 5px 12px;
+}
+
+.place-add-container {
+  padding: 0;
 }

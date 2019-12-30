@@ -1,2 +1,12 @@
-<app-place-add></app-place-add>
-<app-places-list></app-places-list>
+<main
+  class="places-container"
+  [ngClass]="{'container-in-row': !(isHandset | async)!.matches}">
+  <div
+    class="places-add-block"
+    [ngClass]="{'places-add-margin': !(isHandset | async)!.matches}">
+    <app-place-add></app-place-add>
+  </div>
+  <div class="places-list-block">
+    <app-places-list></app-places-list>
+  </div>
+</main>
