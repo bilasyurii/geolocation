@@ -1,8 +1,18 @@
 <h1 mat-dialog-title>Oops!</h1>
-<div mat-dialog-content>
-  <h3>{{data?.message}}</h3>
-  <p>{{data?.code}}</p>
+
+<div mat-dialog-content *ngIf="data != null">
+  <h3>{{data.message}}</h3>
+
+  <mat-expansion-panel class="dialog-additional" expanded="false">
+    <mat-expansion-panel-header>
+      <mat-panel-title>Additional information</mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <p *ngIf="data.code != null">Code of error: {{data.code}}</p>
+    <p>Possible cause and solution: {{data.howToSolve}}</p>
+  </mat-expansion-panel>
 </div>
-<div mat-dialog-actions class="actions">
+
+<div mat-dialog-actions class="dialog-actions">
   <button mat-button mat-dialog-close>OK</button>
 </div>

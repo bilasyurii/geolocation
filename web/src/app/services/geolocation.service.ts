@@ -12,14 +12,17 @@ export class GeolocationService {
   getPlaces() {
     return this.httpClient.get(environment.geolocationAPI + 'place')
       .pipe(
-        timeout(2000),
+        timeout(10000),
         catchError(error => {
           return throwError({
+            // TODO handle different errors because
+            // this catch doesnt always mean timeout
+            // but also that server is off
             message: 'Request timed out',
             howToSolve: `
                 Check if you have a proper internet connection.
                 If you do, then there is a problem on server, so try again later.
-              `
+              `, code: 404
           });
         })
       );

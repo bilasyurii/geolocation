@@ -73,7 +73,9 @@ export class PlacesListComponent implements OnInit, OnDestroy {
 
   private showErrorPopup(error: RequestError) {
     const popup = this.dialog.open(ErrorPopupComponent, {
-      width: '250px',
+      width: '50vw',
+      minWidth: '300px',
+      maxWidth: '500px',
       data: error
     });
   }
