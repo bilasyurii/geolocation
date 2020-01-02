@@ -5,6 +5,14 @@
   align-items: stretch;
 }
 
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: stretch;
+  position: relative;
+}
+
 .places-container {
   width: 100%;
 }
@@ -18,7 +26,6 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  position: relative;
 
   p {
     margin: 8px;

@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
 
 import { GeolocationService } from './geolocation.service';
 import { Place } from '../interfaces/place.interface';
-import { RequestStatusType } from '../models/requestStatusType.enum';
+import { ApiResponse, ResponseStatus } from './../interfaces/apiResponse.interface';
 
 
 @Injectable()
 export class PlacesService {
   places: Place[] = [];
-  placesLoaded = new Subject<RequestStatusType | HttpErrorResponse>();
+  placesLoaded = new Subject<ApiResponse>();
 
   constructor(private geolocationService: GeolocationService) {}
 
@@ -19,13 +18,13 @@ export class PlacesService {
   }
 
   loadPlaces() {
-    this.placesLoaded.next(RequestStatusType.Loading);
+    this.placesLoaded.next({ status: ResponseStatus.Loading });
 
     this.geolocationService.getPlaces().subscribe((response: Place[]) => {
       this.places.push(...response);
-      this.placesLoaded.next(RequestStatusType.Success);
-    }, error => {
-      this.placesLoaded.error(error);
+      this.placesLoaded.next({ status: ResponseStatus.Success });
+    }, err => {
+      this.placesLoaded.next({ status: ResponseStatus.Error, error: err});
     });
   }
 }

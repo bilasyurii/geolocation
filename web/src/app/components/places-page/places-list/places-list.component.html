@@ -1,20 +1,25 @@
-<ng-template #placesSection>
-  <section class="places-container">
-    <ng-container>
-      <app-place
-        *ngFor="let place of places"
-        [place]="place"></app-place>
-    </ng-container>
+<div class="wrapper">
+  <ng-template #placesSection>
+    <section class="places-container">
+      <ng-container>
+        <app-place
+          *ngFor="let place of places"
+          [place]="place"></app-place>
+      </ng-container>
+    </section>
+  </ng-template>
+
+  <section 
+    class="placeholder"
+    *ngIf="places.length === 0; else placesSection">
+    <p>There are no saved places yet.</p>
+    <p>
+      Try to add one using a form on the 
+
+      <span *ngIf="!(isHandset | async)!.matches; else onTopText">left</span>
+      <ng-template #onTopText>top</ng-template>!
+    </p>
   </section>
-</ng-template>
-<section 
-  class="placeholder"
-  *ngIf="places.length === 0; else placesSection">
-  <p>There are no saved places yet.</p>
-  <p>
-    Try to add one using a form on the 
-    <span *ngIf="!(isHandset | async)!.matches; else onTopText">left</span>
-    <ng-template #onTopText>top</ng-template>!
-  </p>
-  <app-loading></app-loading>
-</section>
+
+  <app-loading *ngIf="loading"></app-loading>
+</div>
