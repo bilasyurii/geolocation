@@ -6,6 +6,7 @@
 
 .container-in-row {
   flex-direction: row;
+  align-items: stretch;
 }
 
 .places-add-block {
@@ -15,6 +16,9 @@
 
 .places-list-block {
   flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
 }
 
 .places-add-margin {

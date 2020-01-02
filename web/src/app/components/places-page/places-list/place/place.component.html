@@ -3,11 +3,11 @@
     class="card-content"
     [ngClass]="{'content-in-row': !(isHandset | async)!.matches}">
     <span class="place-title">
-      {{ place.Name }}
+      {{ place.name }}
     </span>
     <div class="coordinates-block">
-      <p>Latitude: {{ place.Latitude }}</p>
-      <p>Longitude: {{ place.Longitude }}</p>
+      <p>Latitude: {{ place.latitude }}</p>
+      <p>Longitude: {{ place.longitude }}</p>
     </div>
   </div>
   <button mat-raised-button color="warn" class="icon-button">

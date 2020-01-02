@@ -17,5 +17,6 @@ export class PlaceComponent {
     this.breakpointObserver.observe(Breakpoints.HandsetPortrait);
 
   constructor(private placesService: PlacesService,
-              private breakpointObserver: BreakpointObserver) { }
+              private breakpointObserver: BreakpointObserver) {
+  }
 }

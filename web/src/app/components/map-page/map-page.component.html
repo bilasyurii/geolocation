@@ -2,5 +2,14 @@
   <agm-map
     class="map"
     [latitude]="latitude" 
-    [longitude]="longitude"></agm-map>
+    [longitude]="longitude">
+    <agm-marker 
+      *ngFor="let place of places"
+      [latitude]="place.Latitude"
+      [longitude]="place.Longitude">
+      <agm-info-window >
+        {{place.Name}}
+      </agm-info-window >
+    </agm-marker>
+  </agm-map>
 </div>

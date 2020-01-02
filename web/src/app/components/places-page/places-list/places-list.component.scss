@@ -1,0 +1,26 @@
+:host {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: stretch;
+}
+
+.places-container {
+  width: 100%;
+}
+
+.placeholder {
+  width: 100%;
+  border: 2px dashed #ddd;
+  color: #bbb;
+  padding: 50px 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+
+  p {
+    margin: 8px;
+  }
+}

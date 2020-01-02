@@ -1,14 +1,15 @@
 import { environment } from './../environments/environment.prod';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { AppRoutingModule } from './app-routing.module';
 import { AgmCoreModule } from '@agm/core';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material.module';
-import { GeolocationService } from './services/geolocation.service';
 
+import { AppRoutingModule } from './app-routing.module';
+import { GeolocationService } from './services/geolocation.service';
+import { WindowScrolling } from './services/windowScrolling.service';
 import { AppComponent } from './components/app/app.component';
 import { PlacesPageComponent } from './components/places-page/places-page.component';
 import { MapPageComponent } from './components/map-page/map-page.component';
@@ -17,6 +18,8 @@ import { PlaceAddComponent } from './components/places-page/place-add/place-add.
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { PlacesListComponent } from './components/places-page/places-list/places-list.component';
 import { PlaceComponent } from './components/places-page/places-list/place/place.component';
+import { LoadingComponent } from './components/loading/loading.component';
+import { ErrorPopupComponent } from './components/error-popup/error-popup.component';
 
 
 @NgModule({
@@ -29,6 +32,8 @@ import { PlaceComponent } from './components/places-page/places-list/place/place
     NotFoundComponent,
     PlacesListComponent,
     PlaceComponent,
+    LoadingComponent,
+    ErrorPopupComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +46,8 @@ import { PlaceComponent } from './components/places-page/places-list/place/place
       apiKey: environment.googleMapsAPIKey
     })
   ],
-  providers: [HttpClient, GeolocationService],
-  bootstrap: [AppComponent]
+  providers: [GeolocationService, HttpClient, WindowScrolling],
+  bootstrap: [AppComponent],
+  entryComponents: [ErrorPopupComponent]
 })
 export class AppModule { }
