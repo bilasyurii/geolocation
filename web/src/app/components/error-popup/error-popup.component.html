@@ -1,18 +1,21 @@
-<h1 mat-dialog-title>Oops!</h1>
+<div [@.disabled]="disableAnimations">
+  <h1 mat-dialog-title class="dialog-title">Oops!</h1>
 
-<div mat-dialog-content *ngIf="data != null">
-  <h3>{{data.message}}</h3>
+  <div mat-dialog-content *ngIf="data != null">
+    <h2 class="error-message">{{data.message}}</h2>
 
-  <mat-expansion-panel class="dialog-additional" expanded="false">
-    <mat-expansion-panel-header>
-      <mat-panel-title>Additional information</mat-panel-title>
-    </mat-expansion-panel-header>
+    <mat-expansion-panel class="dialog-additional" expanded="false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>Additional information</mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="additional-info-wrapper">
+        <p *ngIf="data.code != null"><strong>Code of error:</strong> {{data.code}}</p>
+        <p><strong>Possible cause and solution:</strong> {{data.howToSolve}}</p>
+      </div>
+    </mat-expansion-panel>
+  </div>
 
-    <p *ngIf="data.code != null">Code of error: {{data.code}}</p>
-    <p>Possible cause and solution: {{data.howToSolve}}</p>
-  </mat-expansion-panel>
-</div>
-
-<div mat-dialog-actions class="dialog-actions">
-  <button mat-button mat-dialog-close>OK</button>
+  <div mat-dialog-actions class="dialog-actions">
+    <button mat-button mat-dialog-close>OK</button>
+  </div>
 </div>

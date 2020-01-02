@@ -5,4 +5,20 @@
 
 .dialog-additional {
   margin-bottom: 10px;
+  text-align: justify;
+}
+
+.error-message {
+  text-align: center;
+  margin-top: 0;
+}
+
+.dialog-title {
+  text-align: center;
+}
+
+.additional-info-wrapper {
+  overflow-y: auto;
+  max-height: 20vh;
+  padding-right: 20px;
 }

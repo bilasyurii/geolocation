@@ -65,18 +65,23 @@ export class PlacesListComponent implements OnInit, OnDestroy {
         } else {
           err = response.error as RequestError;
         }
-        this.windowScrolling.disable();
         this.showErrorPopup(err);
       }
     });
   }
 
   private showErrorPopup(error: RequestError) {
+    this.windowScrolling.disable();
+
     const popup = this.dialog.open(ErrorPopupComponent, {
       width: '50vw',
       minWidth: '300px',
       maxWidth: '500px',
       data: error
+    });
+
+    popup.afterClosed().subscribe(result => {
+      this.windowScrolling.enable();
     });
   }
 

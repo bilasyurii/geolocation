@@ -22,7 +22,7 @@ export class GeolocationService {
             howToSolve: `
                 Check if you have a proper internet connection.
                 If you do, then there is a problem on server, so try again later.
-              `, code: 404
+              `
           });
         })
       );
