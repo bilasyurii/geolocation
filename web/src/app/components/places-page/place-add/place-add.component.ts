@@ -1,3 +1,4 @@
+/// <reference types="@types/googlemaps" />
 import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
