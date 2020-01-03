@@ -76,9 +76,10 @@
             placeholder="City" 
             type="text" 
             formControlName="city"
-            ngx-google-places-autocomplete
-            #placesRef="ngx-places">
-
+            autocomplete="off"
+            autocapitalize="off"
+            spellcheck="false"
+            #cityInput>
           <!-- <input 
             matInput 
             placeholder="City" 
