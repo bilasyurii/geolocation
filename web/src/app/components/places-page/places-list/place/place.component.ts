@@ -14,9 +14,13 @@ import { Place } from 'src/app/interfaces/place.interface';
 export class PlaceComponent {
   @Input() place: Place;
   isHandset: Observable<BreakpointState> =
-    this.breakpointObserver.observe(Breakpoints.HandsetPortrait);
+    this.breakpointObserver.observe([Breakpoints.HandsetPortrait,
+                                    '(max-width: 720px)']);
 
   constructor(private placesService: PlacesService,
-              private breakpointObserver: BreakpointObserver) {
+              private breakpointObserver: BreakpointObserver) {}
+
+  delete() {
+    this.placesService.deletePlace(this.place.id);
   }
 }

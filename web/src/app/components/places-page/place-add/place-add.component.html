@@ -75,9 +75,20 @@
             matInput 
             placeholder="City" 
             type="text" 
-            formControlName="city">
+            formControlName="city"
+            [matAutocomplete]="autoComplete">
+
+          <mat-autocomplete
+            #autoComplete="matAutocomplete"
+            [displayWith]="transformOption">
+            <mat-option
+              *ngFor="let option of suggestions | async"
+              [value]="option">
+              {{option}}
+            </mat-option>
+          </mat-autocomplete>
         </mat-form-field>
-        
+
         <mat-form-field>
           <textarea
             matInput

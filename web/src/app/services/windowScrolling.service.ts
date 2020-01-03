@@ -1,4 +1,4 @@
-export class WindowScrolling {
+export class WindowScrollingService {
   private styleTag: HTMLStyleElement;
 
   constructor() {

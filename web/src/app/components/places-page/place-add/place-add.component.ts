@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
+import { AutocompleteService } from './../../../services/autocomplete.service';
 import { PlacesService } from './../../../services/places.service';
 import { Place } from 'src/app/interfaces/place.interface';
 
@@ -10,13 +13,30 @@ import { Place } from 'src/app/interfaces/place.interface';
   templateUrl: './place-add.component.html',
   styleUrls: ['./place-add.component.scss']
 })
-export class PlaceAddComponent {
+export class PlaceAddComponent implements OnInit {
   places: Place[] = [];
+  suggestions: Observable<Place[]>;
   formWithCoords: FormGroup;
   formWithCity: FormGroup;
 
-  constructor(private placesService: PlacesService) {
+  constructor(private placesService: PlacesService,
+              private autocompleteService: AutocompleteService) {
     this.InitForms();
+  }
+
+  ngOnInit() {
+    this.suggestions = this.formWithCity.get('city').valueChanges
+      .pipe(
+        map(value => this.gatherSuggestions(value))
+      );
+  }
+
+  private gatherSuggestions(value: string): Place[] {
+    this.autocompleteService.getSugestions(value).subscribe((result: Place[]) => {
+      console.log(result);
+    });
+
+    return [];
   }
 
   private InitForms() {
@@ -32,11 +52,18 @@ export class PlaceAddComponent {
     });
   }
 
+  transformOption(place?: Place): string | undefined {
+    if (place == null) {
+      return undefined;
+    }
+    return place.name;
+  }
+
   submitWithCoords() {
-    console.log(this.formWithCoords);
+    this.placesService.addPlace(this.formWithCoords.value);
   }
 
   submitWithCity() {
-    console.log(this.formWithCoords);
+    console.log(this.formWithCoords.value);
   }
 }

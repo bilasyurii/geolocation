@@ -9,7 +9,8 @@ import { MaterialModule } from './material.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import { GeolocationService } from './services/geolocation.service';
-import { WindowScrolling } from './services/windowScrolling.service';
+import { AutocompleteService } from './services/autocomplete.service';
+import { WindowScrollingService } from './services/windowScrolling.service';
 import { AppComponent } from './components/app/app.component';
 import { PlacesPageComponent } from './components/places-page/places-page.component';
 import { MapPageComponent } from './components/map-page/map-page.component';
@@ -43,10 +44,10 @@ import { ErrorPopupComponent } from './components/error-popup/error-popup.compon
     BrowserAnimationsModule,
     ReactiveFormsModule,
     AgmCoreModule.forRoot({
-      apiKey: environment.googleMapsAPIKey
+      apiKey: environment.googleAPIKey
     })
   ],
-  providers: [GeolocationService, HttpClient, WindowScrolling],
+  providers: [GeolocationService, HttpClient, WindowScrollingService, AutocompleteService],
   bootstrap: [AppComponent],
   entryComponents: [ErrorPopupComponent]
 })

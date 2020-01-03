@@ -13,18 +13,31 @@ export class PlacesService {
 
   constructor(private geolocationService: GeolocationService) {}
 
-  addPlace(place: Place) {
-    this.places.push(place);
-  }
-
   loadPlaces() {
     this.placesLoaded.next({ status: ResponseStatus.Loading });
 
     this.geolocationService.getPlaces().subscribe((response: Place[]) => {
+      this.places.splice(0, this.places.length);
       this.places.push(...response);
       this.placesLoaded.next({ status: ResponseStatus.Success });
     }, err => {
       this.placesLoaded.next({ status: ResponseStatus.Error, error: err});
+    });
+  }
+
+  addPlace(place: Place) {
+    this.geolocationService.addPlace(place).subscribe((response: Place) => {
+      this.places.push(response);
+    });
+  }
+
+  deletePlace(id: number) {
+    this.geolocationService.deletePlace(id).subscribe((response: any) => {
+      for (let i = 0; i < this.places.length; ++i) {
+        if (this.places[i].id === id) {
+          this.places.splice(i, 1);
+        }
+      }
     });
   }
 }

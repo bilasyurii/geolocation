@@ -10,7 +10,8 @@ import {
   MatCardModule,
   MatProgressSpinnerModule,
   MatDialogModule,
-  MatExpansionModule
+  MatExpansionModule,
+  MatAutocompleteModule
 } from '@angular/material';
 
 
@@ -26,7 +27,8 @@ import {
     MatCardModule,
     MatProgressSpinnerModule,
     MatDialogModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatAutocompleteModule
   ],
   exports: [
     MatSidenavModule,
@@ -39,7 +41,8 @@ import {
     MatCardModule,
     MatProgressSpinnerModule,
     MatDialogModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatAutocompleteModule
   ]
 })
 export class MaterialModule { }

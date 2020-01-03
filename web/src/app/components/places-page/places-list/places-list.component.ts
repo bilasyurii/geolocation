@@ -9,7 +9,7 @@ import { PlacesService } from './../../../services/places.service';
 import { Place } from 'src/app/interfaces/place.interface';
 import { RequestError } from 'src/app/interfaces/requestError.interface';
 import { ErrorPopupComponent } from '../../error-popup/error-popup.component';
-import { WindowScrolling } from 'src/app/services/windowScrolling.service';
+import { WindowScrollingService } from 'src/app/services/windowScrolling.service';
 
 
 @Component({
@@ -27,7 +27,7 @@ export class PlacesListComponent implements OnInit, OnDestroy {
   constructor(private placesService: PlacesService,
               private breakpointObserver: BreakpointObserver,
               private dialog: MatDialog,
-              private windowScrolling: WindowScrolling/*TODO*/) { }
+              private windowScrolling: WindowScrollingService) { }
 
   ngOnInit() {
     this.setupLoadingHandling();

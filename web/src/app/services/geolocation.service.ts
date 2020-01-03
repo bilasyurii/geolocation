@@ -2,15 +2,18 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { timeout, catchError } from 'rxjs/operators';
-import { of, throwError } from 'rxjs';
+import { throwError } from 'rxjs';
+
+import { Place } from 'src/app/interfaces/place.interface';
 
 
 @Injectable()
 export class GeolocationService {
   constructor(private httpClient: HttpClient) {}
+  private url = environment.geolocationAPI + 'place';
 
   getPlaces() {
-    return this.httpClient.get(environment.geolocationAPI + 'place')
+    return this.httpClient.get(this.url)
       .pipe(
         timeout(10000),
         catchError(error => {
@@ -39,5 +42,13 @@ export class GeolocationService {
           }
         })
       );
+  }
+
+  addPlace(place: Place) {
+    return this.httpClient.post(this.url, place);
+  }
+
+  deletePlace(id: number) {
+    return this.httpClient.delete(this.url + '/' + id);
   }
 }
