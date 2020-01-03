@@ -76,6 +76,14 @@
             placeholder="City" 
             type="text" 
             formControlName="city"
+            ngx-google-places-autocomplete
+            #placesRef="ngx-places">
+
+          <!-- <input 
+            matInput 
+            placeholder="City" 
+            type="text" 
+            formControlName="city"
             [matAutocomplete]="autoComplete">
 
           <mat-autocomplete
@@ -86,7 +94,7 @@
               [value]="option">
               {{option}}
             </mat-option>
-          </mat-autocomplete>
+          </mat-autocomplete> -->
         </mat-form-field>
 
         <mat-form-field>

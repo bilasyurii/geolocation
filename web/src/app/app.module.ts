@@ -5,9 +5,10 @@ import { AgmCoreModule } from '@agm/core';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MaterialModule } from './material.module';
+import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 
 import { AppRoutingModule } from './app-routing.module';
+import { MaterialModule } from './material.module';
 import { GeolocationService } from './services/geolocation.service';
 import { AutocompleteService } from './services/autocomplete.service';
 import { WindowScrollingService } from './services/windowScrolling.service';
@@ -43,6 +44,7 @@ import { ErrorPopupComponent } from './components/error-popup/error-popup.compon
     MaterialModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    GooglePlaceModule,
     AgmCoreModule.forRoot({
       apiKey: environment.googleAPIKey
     })
