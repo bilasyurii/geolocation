@@ -50,22 +50,7 @@ export class PlacesListComponent implements OnInit, OnDestroy {
         this.loading = false;
       } else if (response.status === ResponseStatus.Error) {
         this.loading = false;
-
-        let err: RequestError;
-        if (this.isHttpErrorResponse(response.error)) {
-          const httpErrorResponse = response.error as HttpErrorResponse;
-          err = {
-            message: httpErrorResponse.statusText,
-            howToSolve: 'Please, try again later.'
-          };
-          const code = httpErrorResponse.status;
-          if (code != null && code !== 0) {
-            err.code = code;
-          }
-        } else {
-          err = response.error as RequestError;
-        }
-        this.showErrorPopup(err);
+        this.showErrorPopup(response.error as RequestError);
       }
     });
   }
@@ -83,9 +68,5 @@ export class PlacesListComponent implements OnInit, OnDestroy {
     popup.afterClosed().subscribe(result => {
       this.windowScrolling.enable();
     });
-  }
-
-  private isHttpErrorResponse(value: HttpErrorResponse | RequestError): boolean {
-    return 'name' in value;
   }
 }

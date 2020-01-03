@@ -14,16 +14,29 @@ export class GeolocationService {
       .pipe(
         timeout(10000),
         catchError(error => {
-          return throwError({
-            // TODO handle different errors because
-            // this catch doesnt always mean timeout
-            // but also that server is off
-            message: 'Request timed out',
-            howToSolve: `
-                Check if you have a proper internet connection.
-                If you do, then there is a problem on server, so try again later.
-              `
-          });
+          if (error.name === 'TimeoutError') {
+            return throwError({
+              message: 'Request timed out',
+              howToSolve: `
+                  Check if you have a proper internet connection.
+                  If you do, then there is a problem on server, so try again later.`
+            });
+          } else {
+            const solution = `The server may not be working or there is
+                              some another problem with it. Try again later.`;
+            if (error.name === 'HttpErrorResponse' && error.status !== 0) {
+              return throwError({
+                message: error.statusText,
+                howToSolve: solution,
+                code: error.status
+              });
+            } else {
+              return throwError({
+                message: 'Unknown error',
+                howToSolve: solution
+              });
+            }
+          }
         })
       );
   }

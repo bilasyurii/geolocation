@@ -8,9 +8,15 @@
       <mat-expansion-panel-header>
         <mat-panel-title>Additional information</mat-panel-title>
       </mat-expansion-panel-header>
+
       <div class="additional-info-wrapper">
         <p *ngIf="data.code != null"><strong>Code of error:</strong> {{data.code}}</p>
-        <p><strong>Possible cause and solution:</strong> {{data.howToSolve}}</p>
+
+        <p>
+          <strong>Possible cause and solution: </strong>
+
+          <span [innerHTML]="data.howToSolve"></span>
+        </p>
       </div>
     </mat-expansion-panel>
   </div>
