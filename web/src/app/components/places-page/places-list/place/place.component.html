@@ -5,12 +5,25 @@
     <span class="place-title">
       {{ place.name }}
     </span>
-    <div class="coordinates-block">
-      <p>Latitude: {{ place.latitude }}</p>
-      <p>Longitude: {{ place.longitude }}</p>
-    </div>
+
+    <table class="coordinates-block">
+      <tr>
+        <td>Latitude: </td>
+
+        <td>{{ place.latitude | number: '1.6-6' }}</td>
+      </tr>
+      <tr>
+        <td>Longitude: </td>
+
+        <td>{{ place.longitude | number: '1.6-6' }}</td>
+      </tr>
+    </table>
   </div>
-  <button mat-raised-button color="warn" class="icon-button">
+
+  <button
+    mat-raised-button
+    color="warn"
+    class="icon-button">
     <mat-icon>delete</mat-icon>
   </button>
 </mat-card>
