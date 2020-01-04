@@ -2,6 +2,7 @@
 import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap, startWith, filter } from 'rxjs/operators';
 
 import { AutocompleteService } from './../../../services/autocomplete.service';
 import { PlacesService } from './../../../services/places.service';
@@ -26,12 +27,13 @@ export class PlaceAddComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.suggestions = this.autocompleteService.suggestions;
-    this.formWithCity.get('city').valueChanges.subscribe(
-      (value: string) => this.autocompleteService.getSugestions(value));
-      // .pipe(
-      //   map(value => this.gatherSuggestions(value))
-      // );
+    // this.suggestions = this.autocompleteService.suggestions;
+    this.suggestions = this.formWithCity.get('city').valueChanges.pipe(
+      filter((input: string) => input.length > 0),
+      debounceTime(100),
+      distinctUntilChanged(),
+      switchMap((input: string) => this.gatherSuggestions(input))
+    );
   }
 
   private InitForms() {
@@ -45,6 +47,10 @@ export class PlaceAddComponent implements OnInit {
       city: new FormControl(null, Validators.required),
       description: new FormControl(null),
     });
+  }
+
+  private gatherSuggestions(input: string): Observable<PlaceSuggestion[]> {
+    return this.autocompleteService.getSugestions(input);
   }
 
   submitWithCoords() {

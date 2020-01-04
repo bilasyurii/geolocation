@@ -81,7 +81,7 @@
           <mat-autocomplete
             #autoComplete="matAutocomplete">
             <mat-option
-              *ngFor="let suggestion of suggestions | async"
+              *ngFor="let suggestion of (suggestions | async)"
               [value]="suggestion">
               {{suggestion.name}}
             </mat-option>

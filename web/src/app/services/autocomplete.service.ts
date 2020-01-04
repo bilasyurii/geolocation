@@ -1,5 +1,6 @@
 /// <reference types="@types/googlemaps" />
 import { Injectable } from '@angular/core';
+import { NgZone } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { MapsAPILoader } from '@agm/core';
 
@@ -11,12 +12,10 @@ type Status = google.maps.places.PlacesServiceStatus;
 
 @Injectable()
 export class AutocompleteService {
-  suggestions: Observable<PlaceSuggestion[]>;
   private suggestionsSubject = new Subject<PlaceSuggestion[]>();
   private service: google.maps.places.AutocompleteService;
 
-  constructor(private mapsApiLoader: MapsAPILoader) {
-    this.suggestions = this.suggestionsSubject.asObservable();
+  constructor(private mapsApiLoader: MapsAPILoader, private zone: NgZone) {
     mapsApiLoader.load().then(() => {
       this.service = new google.maps.places.AutocompleteService();
     });
@@ -38,12 +37,15 @@ export class AutocompleteService {
     }));
   }
 
-  getSugestions(searchInput: string) {
+  getSugestions(searchInput: string): Observable<PlaceSuggestion[]> {
     this.service.getPlacePredictions({
       input: searchInput,
       types: ['(cities)']
     }, (predictions: Prediction[], status: Status) => {
-      this.handle(predictions, status);
+      this.zone.run(() => {
+        this.handle(predictions, status);
+      });
     });
+    return this.suggestionsSubject.asObservable();
   }
 }
