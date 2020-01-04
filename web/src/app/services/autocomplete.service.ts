@@ -1,24 +1,46 @@
+/// <reference types="@types/googlemaps" />
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { MapsAPILoader } from '@agm/core';
 
-import { Place } from '../interfaces/place.interface';
+import { PlaceSuggestion } from '../interfaces/placeSuggestion.interface';
+
+type Prediction = google.maps.places.AutocompletePrediction;
+type Status = google.maps.places.PlacesServiceStatus;
 
 
 @Injectable()
 export class AutocompleteService {
-  constructor(private httpClient: HttpClient) {}
+  private service: google.maps.places.AutocompleteService;
+  private receivedSuggestions = new Subject<PlaceSuggestion[]>();
 
-  getSugestions(input: string): Observable<Place[]> {
-    return this.httpClient.get(environment.googlePlacesAPI +
-                        'input=' + input +
-                        '&types=(cities)&key=' +
-                        environment.googleAPIKey)
-      .pipe(map(value => {
-        console.log(value);
-        return [];
-      }));
+  constructor(private mapsApiLoader: MapsAPILoader) {
+    mapsApiLoader.load().then(() => {
+      this.service = new google.maps.places.AutocompleteService();
+    });
+  }
+
+  private handle(predictions: Prediction[], status: Status) {
+    if (status !== google.maps.places.PlacesServiceStatus.OK) {
+      return;
+    }
+
+    this.receivedSuggestions.next(predictions .map<PlaceSuggestion>((prediction: Prediction) => {
+      return {
+        name: prediction.description,
+        latitude: 0,
+        longitude: 0
+      };
+    }));
+  }
+
+  getSugestions(searchInput: string): Observable<PlaceSuggestion[]> {
+    this.service.getPlacePredictions({
+      input: searchInput,
+      types: ['(cities)']
+    }, (predictions: Prediction[], status: Status) => {
+      this.handle(predictions, status);
+    });
+    return this.receivedSuggestions.asObservable();
   }
 }

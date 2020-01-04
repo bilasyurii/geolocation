@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
 import { AutocompleteService } from './../../../services/autocomplete.service';
 import { PlacesService } from './../../../services/places.service';
 import { Place } from 'src/app/interfaces/place.interface';
-import { MapsAPILoader } from '@agm/core';
+import { PlaceSuggestion } from './../../../interfaces/placeSuggestion.interface';
 
 
 @Component({
@@ -16,46 +16,25 @@ import { MapsAPILoader } from '@agm/core';
   styleUrls: ['./place-add.component.scss']
 })
 export class PlaceAddComponent implements OnInit {
-  @ViewChild('cityInput', { static: true })
-  cityInputRef: ElementRef;
   places: Place[] = [];
-  suggestions: Observable<Place[]>;
+  suggestions: Observable<PlaceSuggestion[]>;
   formWithCoords: FormGroup;
   formWithCity: FormGroup;
 
   constructor(private placesService: PlacesService,
-              private mapsApiLoader: MapsAPILoader,
-              private ngZone: NgZone,
               private autocompleteService: AutocompleteService) {
     this.InitForms();
   }
 
   ngOnInit() {
-    this.mapsApiLoader.load().then(() => {
-      const autocomplete = new google.maps.places.Autocomplete(
-        this.cityInputRef.nativeElement, {
-        types: ['(cities)']
-      });
-
-      autocomplete.addListener('place_changed', () => {
-        this.ngZone.run(() => {
-          const place: google.maps.places.PlaceResult = autocomplete.getPlace();
-          if (place.geometry == null) {
-            return;
-          }
-          console.log(place);
-        });
-      });
-    });
-
     this.suggestions = this.formWithCity.get('city').valueChanges
       .pipe(
         map(value => this.gatherSuggestions(value))
       );
   }
 
-  private gatherSuggestions(value: string): Place[] {
-    this.autocompleteService.getSugestions(value).subscribe((result: Place[]) => {
+  private gatherSuggestions(value: string): PlaceSuggestion[] {
+    this.autocompleteService.getSugestions(value).subscribe((result: PlaceSuggestion[]) => {
       console.log(result);
     });
 
