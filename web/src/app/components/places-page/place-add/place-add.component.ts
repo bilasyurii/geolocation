@@ -1,13 +1,14 @@
 /// <reference types="@types/googlemaps" />
 import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, startWith, filter } from 'rxjs/operators';
 
 import { AutocompleteService } from './../../../services/autocomplete.service';
 import { PlacesService } from './../../../services/places.service';
 import { Place } from 'src/app/interfaces/place.interface';
 import { PlaceSuggestion } from './../../../interfaces/placeSuggestion.interface';
+import { PlaceLocation } from './../../../interfaces/placeLocation.interface';
 
 
 @Component({
@@ -20,14 +21,20 @@ export class PlaceAddComponent implements OnInit {
   formWithCoords: FormGroup;
   formWithCity: FormGroup;
   suggestions: Observable<PlaceSuggestion[]>;
+  locationLoading: boolean;
 
-  constructor(private placesService: PlacesService,
-              private autocompleteService: AutocompleteService) {
+  private location: PlaceLocation;
+  private locationSubscription: Subscription;
+
+  constructor(
+    private placesService: PlacesService,
+    private autocompleteService: AutocompleteService
+  ) {
     this.InitForms();
+    this.setupLocationHandling();
   }
 
   ngOnInit() {
-    // this.suggestions = this.autocompleteService.suggestions;
     this.suggestions = this.formWithCity.get('city').valueChanges.pipe(
       filter((input: string) => input.length > 0),
       debounceTime(100),
@@ -41,12 +48,22 @@ export class PlaceAddComponent implements OnInit {
       name: new FormControl(null, Validators.required),
       latitude: new FormControl(null, Validators.required),
       longitude: new FormControl(null, Validators.required),
-      description: new FormControl(null),
+      description: new FormControl(null)
     });
     this.formWithCity = new FormGroup({
       city: new FormControl(null, Validators.required),
-      description: new FormControl(null),
+      name: new FormControl(null),
+      description: new FormControl(null)
     });
+  }
+
+  private setupLocationHandling() {
+    this.locationSubscription = this.autocompleteService.locationLoaded.subscribe(
+      (location: PlaceLocation) => {
+        this.locationLoading = false;
+        this.location = location;
+      }
+    );
   }
 
   private gatherSuggestions(input: string): Observable<PlaceSuggestion[]> {
@@ -58,6 +75,26 @@ export class PlaceAddComponent implements OnInit {
   }
 
   submitWithCity() {
-    console.log(this.formWithCoords.value);
+    const formData = this.formWithCity.value;
+
+    const formNameData = formData.name as string;
+
+    const placeName = formNameData.length > 0 ? formNameData : formData.city.name;
+
+    this.placesService.addPlace({
+      name: placeName,
+      description: formData.description,
+      latitude: this.location.latitude,
+      longitude: this.location.longitude
+    });
+  }
+
+  loadLocation(suggestion: PlaceSuggestion) {
+    this.locationLoading = true;
+    this.autocompleteService.getLocation(suggestion.placeId);
+  }
+
+  suggestionTransform(suggestion: PlaceSuggestion) {
+    return suggestion ? suggestion.name : undefined;
   }
 }

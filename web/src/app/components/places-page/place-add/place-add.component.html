@@ -79,13 +79,23 @@
             [matAutocomplete]="autoComplete">
 
           <mat-autocomplete
-            #autoComplete="matAutocomplete">
+            #autoComplete="matAutocomplete"
+            (optionSelected)='loadLocation($event.option.value)'
+            [displayWith]='suggestionTransform'>
             <mat-option
               *ngFor="let suggestion of (suggestions | async)"
               [value]="suggestion">
               {{suggestion.name}}
             </mat-option>
           </mat-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input 
+            matInput 
+            placeholder="Name" 
+            type="text" 
+            formControlName="name">
         </mat-form-field>
 
         <mat-form-field>

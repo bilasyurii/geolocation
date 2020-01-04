@@ -22,7 +22,7 @@ export class PlacesListComponent implements OnInit, OnDestroy {
   isHandset: Observable<BreakpointState> =
     this.breakpointObserver.observe(Breakpoints.HandsetPortrait);
   loading = false;
-  private subscription: Subscription;
+  private placesSubscription: Subscription;
 
   constructor(private placesService: PlacesService,
               private breakpointObserver: BreakpointObserver,
@@ -35,7 +35,7 @@ export class PlacesListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.placesSubscription.unsubscribe();
   }
 
   private startLoading() {
@@ -44,7 +44,7 @@ export class PlacesListComponent implements OnInit, OnDestroy {
   }
 
   private setupLoadingHandling() {
-    this.subscription = this.placesService.placesLoaded.subscribe((response: ApiResponse) => {
+    this.placesSubscription = this.placesService.placesLoaded.subscribe((response: ApiResponse) => {
       if (response.status === ResponseStatus.Success) {
         this.places = this.placesService.places;
         this.loading = false;

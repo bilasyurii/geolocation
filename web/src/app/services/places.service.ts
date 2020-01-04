@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 
 import { GeolocationService } from './geolocation.service';
 import { Place } from '../interfaces/place.interface';
@@ -9,19 +9,23 @@ import { ApiResponse, ResponseStatus } from './../interfaces/apiResponse.interfa
 @Injectable()
 export class PlacesService {
   places: Place[] = [];
-  placesLoaded = new Subject<ApiResponse>();
+  placesLoaded: Observable<ApiResponse>;
 
-  constructor(private geolocationService: GeolocationService) {}
+  private placesLoadedSubscription = new Subject<ApiResponse>();
+
+  constructor(private geolocationService: GeolocationService) {
+    this.placesLoaded = this.placesLoadedSubscription.asObservable();
+  }
 
   loadPlaces() {
-    this.placesLoaded.next({ status: ResponseStatus.Loading });
+    this.placesLoadedSubscription.next({ status: ResponseStatus.Loading });
 
     this.geolocationService.getPlaces().subscribe((response: Place[]) => {
       this.places.splice(0, this.places.length);
       this.places.push(...response);
-      this.placesLoaded.next({ status: ResponseStatus.Success });
+      this.placesLoadedSubscription.next({ status: ResponseStatus.Success });
     }, err => {
-      this.placesLoaded.next({ status: ResponseStatus.Error, error: err});
+      this.placesLoadedSubscription.next({ status: ResponseStatus.Error, error: err});
     });
   }
 
