@@ -11,10 +11,12 @@ type Status = google.maps.places.PlacesServiceStatus;
 
 @Injectable()
 export class AutocompleteService {
+  suggestions: Observable<PlaceSuggestion[]>;
+  private suggestionsSubject = new Subject<PlaceSuggestion[]>();
   private service: google.maps.places.AutocompleteService;
-  private receivedSuggestions = new Subject<PlaceSuggestion[]>();
 
   constructor(private mapsApiLoader: MapsAPILoader) {
+    this.suggestions = this.suggestionsSubject.asObservable();
     mapsApiLoader.load().then(() => {
       this.service = new google.maps.places.AutocompleteService();
     });
@@ -25,7 +27,9 @@ export class AutocompleteService {
       return;
     }
 
-    this.receivedSuggestions.next(predictions .map<PlaceSuggestion>((prediction: Prediction) => {
+    console.log(predictions);
+
+    this.suggestionsSubject.next(predictions .map<PlaceSuggestion>((prediction: Prediction) => {
       return {
         name: prediction.description,
         latitude: 0,
@@ -34,13 +38,12 @@ export class AutocompleteService {
     }));
   }
 
-  getSugestions(searchInput: string): Observable<PlaceSuggestion[]> {
+  getSugestions(searchInput: string) {
     this.service.getPlacePredictions({
       input: searchInput,
       types: ['(cities)']
     }, (predictions: Prediction[], status: Status) => {
       this.handle(predictions, status);
     });
-    return this.receivedSuggestions.asObservable();
   }
 }

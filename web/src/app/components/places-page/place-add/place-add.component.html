@@ -79,12 +79,11 @@
             [matAutocomplete]="autoComplete">
 
           <mat-autocomplete
-            #autoComplete="matAutocomplete"
-            [displayWith]="transformOption">
+            #autoComplete="matAutocomplete">
             <mat-option
-              *ngFor="let option of suggestions | async"
-              [value]="option">
-              {{option}}
+              *ngFor="let suggestion of suggestions | async"
+              [value]="suggestion">
+              {{suggestion.name}}
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
