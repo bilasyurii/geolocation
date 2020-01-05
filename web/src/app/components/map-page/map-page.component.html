@@ -2,14 +2,62 @@
   <agm-map
     class="map"
     [latitude]="latitude" 
-    [longitude]="longitude">
+    [longitude]="longitude"
+    [streetViewControl]="false">
+
     <agm-marker 
       *ngFor="let place of places"
       [latitude]="place.latitude"
       [longitude]="place.longitude">
-      <agm-info-window >
-        {{place.name}}
-      </agm-info-window >
+
+      <agm-snazzy-info-window
+        [maxWidth]="300"
+        [pointer]="15"
+        padding="0"
+        [latitude]="place.latitude"
+        [longitude]="place.longitude"
+        wrapperClass="info-window-wrapper"
+        [panOnOpen]="true"
+        [closeWhenOthersOpen]="true"
+        [closeOnMapClick]="true"
+        [showCloseButton]="false"
+        [isOpen]="false">
+
+        <ng-template>
+          <div class="info-window-container">
+            <div class="buttons-container">
+              <div class="buttons-wrapper">
+                <button
+                  mat-raised-button
+                  color="warn"
+                  class="info-window-button">
+                  <mat-icon class="icon-16px">close</mat-icon>
+                </button>
+                <button
+                  mat-raised-button
+                  color="primary"
+                  class="info-window-button">
+                  <mat-icon class="icon-16px">edit</mat-icon>
+                </button>
+              </div>
+            </div>
+  
+            <div class="info-container">
+              <mat-toolbar class="info-window-header">
+                <p>{{place.name}}</p>
+              </mat-toolbar>
+  
+              <div class="info-window-content">
+                <p>{{place.description}}
+                  loooooong text loooooong text loooooong text loooooong text 
+                  loooooong text loooooong text loooooong text loooooong text 
+                  loooooong text loooooong text loooooong text loooooong text 
+                  loooooong text loooooong text loooooong text loooooong text</p>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </agm-snazzy-info-window>
     </agm-marker>
   </agm-map>
 </div>

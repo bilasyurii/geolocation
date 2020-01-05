@@ -3,7 +3,7 @@
 @include mat-core();
 
 $geolocation-app-primary: mat-palette($mat-green);
-$geolocation-app-accent:  mat-palette($mat-light-green, A200, A100, A400);
+$geolocation-app-accent:  mat-palette($mat-teal, 400, 300, 600);
 
 $geolocation-app-theme: mat-light-theme($geolocation-app-primary, $geolocation-app-accent);
 

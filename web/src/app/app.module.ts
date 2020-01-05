@@ -2,6 +2,7 @@ import { environment } from './../environments/environment.prod';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AgmCoreModule } from '@agm/core';
+import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -46,7 +47,8 @@ import { ErrorPopupComponent } from './components/error-popup/error-popup.compon
     AgmCoreModule.forRoot({
       apiKey: environment.googleAPIKey,
       libraries: ['places']
-    })
+    }),
+    AgmSnazzyInfoWindowModule
   ],
   providers: [GeolocationService, HttpClient, WindowScrollingService, AutocompleteService],
   bootstrap: [AppComponent],
