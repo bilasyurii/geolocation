@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Inject } from '@angular/core';
 
 import { PlacesService } from 'src/app/services/places.service';
 import { Place } from 'src/app/interfaces/place.interface';
-import { PlaceLocation } from './../../interfaces/placeLocation.interface';
 
 
 @Component({
@@ -16,9 +15,19 @@ export class MapPageComponent implements OnInit {
 
   places: Place[] = [];
 
-  constructor(private placesService: PlacesService) { }
+  constructor(private placesService: PlacesService,
+              @Inject(ChangeDetectorRef) private changeDetector: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.places = this.placesService.places;
+  }
+
+  closeWindow(place: Place) {
+    place.visible = false;
+    this.changeDetector.detectChanges();
+  }
+
+  windowToggled(isOpen: boolean, place: Place) {
+    place.visible = isOpen;
   }
 }

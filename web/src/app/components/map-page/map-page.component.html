@@ -16,23 +16,26 @@
         padding="0"
         [latitude]="place.latitude"
         [longitude]="place.longitude"
-        wrapperClass="info-window-wrapper"
+        [isOpen]="place.visible"
         [panOnOpen]="true"
         [closeWhenOthersOpen]="true"
         [closeOnMapClick]="true"
         [showCloseButton]="false"
-        [isOpen]="false">
+        (isOpenChange)="windowToggled($event, place)">
 
         <ng-template>
           <div class="info-window-container">
             <div class="buttons-container">
               <div class="buttons-wrapper">
+
                 <button
                   mat-raised-button
                   color="warn"
-                  class="info-window-button">
+                  class="info-window-button"
+                  (click)="closeWindow(place)">
                   <mat-icon class="icon-16px">close</mat-icon>
                 </button>
+
                 <button
                   mat-raised-button
                   color="primary"
@@ -43,16 +46,13 @@
             </div>
   
             <div class="info-container">
+
               <mat-toolbar class="info-window-header">
                 <p>{{place.name}}</p>
               </mat-toolbar>
   
               <div class="info-window-content">
-                <p>{{place.description}}
-                  loooooong text loooooong text loooooong text loooooong text 
-                  loooooong text loooooong text loooooong text loooooong text 
-                  loooooong text loooooong text loooooong text loooooong text 
-                  loooooong text loooooong text loooooong text loooooong text</p>
+                <p>{{place.description}}</p>
               </div>
             </div>
           </div>

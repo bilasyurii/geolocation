@@ -22,6 +22,7 @@ export class PlacesService {
 
     this.geolocationService.getPlaces().subscribe((response: Place[]) => {
       this.places.splice(0, this.places.length);
+      response.forEach(place => place.visible = false);
       this.places.push(...response);
       this.placesLoadedSubscription.next({ status: ResponseStatus.Success });
     }, err => {
@@ -31,6 +32,7 @@ export class PlacesService {
 
   addPlace(place: Place) {
     this.geolocationService.addPlace(place).subscribe((response: Place) => {
+      response.visible = false;
       this.places.push(response);
     });
   }

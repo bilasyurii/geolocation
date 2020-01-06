@@ -45,7 +45,13 @@ export class GeolocationService {
   }
 
   addPlace(place: Place) {
-    return this.httpClient.post(this.url, place);
+    const dataToSend = {
+      name: place.name,
+      description: place.description,
+      latitude: place.latitude,
+      longitude: place.latitude
+    };
+    return this.httpClient.post(this.url, dataToSend);
   }
 
   deletePlace(id: number) {
