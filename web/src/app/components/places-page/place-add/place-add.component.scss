@@ -1,5 +1,10 @@
-mat-form-field {
+.form-field {
   width: 100%;
+  margin-bottom: 10px;
+}
+
+.form-error {
+  margin-bottom: 5px;
 }
 
 .form-in-tab {

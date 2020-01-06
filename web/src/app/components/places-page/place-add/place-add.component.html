@@ -13,34 +13,50 @@
         class="form-in-tab"
         [formGroup]="formWithCoords" 
         (ngSubmit)="submitWithCoords()">
-        <mat-form-field>
+        <mat-form-field class="form-field">
           <input 
             matInput 
             placeholder="Name" 
             type="text" 
-            formControlName="name">
+            formControlName="name"
+            required>
+
+          <mat-error class="form-error" *ngIf="name.invalid">{{getErrorMessage(name)}}</mat-error>
         </mat-form-field>
-        <mat-form-field>
-          <input 
-            matInput 
-            placeholder="Latitude" 
-            type="number" 
-            formControlName="latitude">
-        </mat-form-field>
-        <mat-form-field>
+
+        <mat-form-field class="form-field">
           <input 
             matInput 
             placeholder="Longitude" 
             type="number" 
-            formControlName="longitude">
+            formControlName="longitude"
+            required>
+          
+          <mat-error class="form-error" *ngIf="longitude.invalid">{{getErrorMessage(longitude)}}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form-field">
+          <input 
+            matInput 
+            placeholder="Latitude" 
+            type="number" 
+            formControlName="latitude"
+            required>
+
+          <mat-error class="form-error" *ngIf="latitude.invalid">{{getErrorMessage(latitude)}}</mat-error>
         </mat-form-field>
         
-        <mat-form-field>
+        <mat-form-field class="form-field">
           <textarea
-            matInput 
+            matInput
+            #descriptionElement
             cdkTextareaAutosize="true"
             placeholder="Description" 
             formControlName="description"></textarea>
+
+          <mat-hint align="end">{{descriptionElement.value?.length || 0}}/256</mat-hint>
+
+          <mat-error class="form-error" *ngIf="description.invalid">{{getErrorMessage(description)}}</mat-error>
         </mat-form-field>
 
         <button 
@@ -65,18 +81,21 @@
 
         By city
       </ng-template>
-
+      
       <form
         class="form-in-tab"
         [formGroup]="formWithCity" 
         (ngSubmit)="submitWithCity()">
-        <mat-form-field>
+        <mat-form-field class="form-field">
           <input 
             matInput 
             placeholder="City" 
             type="text" 
             formControlName="city"
-            [matAutocomplete]="autoComplete">
+            [matAutocomplete]="autoComplete"
+            required>
+
+          <mat-error class="form-error" *ngIf="city.invalid">{{getErrorMessage(city)}}</mat-error>
 
           <mat-autocomplete
             #autoComplete="matAutocomplete"
@@ -90,20 +109,27 @@
           </mat-autocomplete>
         </mat-form-field>
 
-        <mat-form-field>
+        <mat-form-field class="form-field">
           <input 
             matInput 
             placeholder="Name" 
             type="text" 
             formControlName="name">
+
+          <mat-error class="form-error" *ngIf="name2.invalid">{{getErrorMessage(name2)}}</mat-error>
         </mat-form-field>
 
-        <mat-form-field>
+        <mat-form-field class="form-field">
           <textarea
             matInput
+            #descriptionElement2
             cdkTextareaAutosize="true"
             placeholder="Description" 
             formControlName="description"></textarea>
+
+          <mat-hint align="end">{{descriptionElement2.value?.length || 0}}/256</mat-hint>
+
+          <mat-error class="form-error" *ngIf="description2.invalid">{{getErrorMessage(description2)}}</mat-error>
         </mat-form-field>
 
         <button 

@@ -1,8 +1,8 @@
 /// <reference types="@types/googlemaps" />
-import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
-import { debounceTime, distinctUntilChanged, switchMap, startWith, filter } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, switchMap, filter } from 'rxjs/operators';
 
 import { AutocompleteService } from './../../../services/autocomplete.service';
 import { PlacesService } from './../../../services/places.service';
@@ -16,7 +16,7 @@ import { PlaceLocation } from './../../../interfaces/placeLocation.interface';
   templateUrl: './place-add.component.html',
   styleUrls: ['./place-add.component.scss']
 })
-export class PlaceAddComponent implements OnInit {
+export class PlaceAddComponent implements OnInit, OnDestroy {
   places: Place[] = [];
   formWithCoords: FormGroup;
   formWithCity: FormGroup;
@@ -43,17 +43,32 @@ export class PlaceAddComponent implements OnInit {
     );
   }
 
+  ngOnDestroy() {
+    this.locationSubscription.unsubscribe();
+  }
+
   private InitForms() {
     this.formWithCoords = new FormGroup({
-      name: new FormControl(null, Validators.required),
-      latitude: new FormControl(null, Validators.required),
-      longitude: new FormControl(null, Validators.required),
-      description: new FormControl(null)
+      name: new FormControl(null, [
+        Validators.required,
+        Validators.maxLength(32)
+      ]),
+      latitude: new FormControl(null, [
+        Validators.required,
+        Validators.min(-90),
+        Validators.max(90)
+      ]),
+      longitude: new FormControl(null, [
+        Validators.required,
+        Validators.min(-180),
+        Validators.max(180)
+      ]),
+      description: new FormControl(null, Validators.maxLength(256))
     });
     this.formWithCity = new FormGroup({
       city: new FormControl(null, Validators.required),
-      name: new FormControl(null),
-      description: new FormControl(null)
+      name: new FormControl(null, Validators.maxLength(32)),
+      description: new FormControl(null, Validators.maxLength(256))
     });
   }
 
@@ -96,5 +111,56 @@ export class PlaceAddComponent implements OnInit {
 
   suggestionTransform(suggestion: PlaceSuggestion) {
     return suggestion ? suggestion.name : undefined;
+  }
+
+  get name(): AbstractControl {
+    return this.formWithCoords.get('name');
+  }
+
+  get longitude(): AbstractControl {
+    return this.formWithCoords.get('longitude');
+  }
+
+  get latitude(): AbstractControl {
+    return this.formWithCoords.get('latitude');
+  }
+
+  get description(): AbstractControl {
+    return this.formWithCoords.get('description');
+  }
+
+  get city(): AbstractControl {
+    return this.formWithCity.get('city');
+  }
+
+  get name2(): AbstractControl {
+    return this.formWithCity.get('name');
+  }
+
+  get description2(): AbstractControl {
+    return this.formWithCity.get('description');
+  }
+
+  getErrorMessage(element: AbstractControl): string {
+    if (element.hasError('required')) {
+
+      return 'You must enter a value.';
+
+    } else if (element.hasError('maxlength')) {
+
+      return 'Value can\'t be longer than ' +
+             element.getError('maxlength').requiredLength + ' symbols.';
+
+    } else if (element.hasError('max')) {
+
+      return 'Value can\'t be bigger than ' +
+             element.getError('max').max + '.';
+
+    } else if (element.hasError('min')) {
+
+      return 'Value can\'t be smaller than ' +
+             element.getError('min').min + '.';
+
+    }
   }
 }
