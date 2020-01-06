@@ -8,26 +8,54 @@ import { ApiResponse, ResponseStatus } from './../interfaces/apiResponse.interfa
 
 @Injectable()
 export class PlacesService {
+  private reloadPossible = true;
+  private selectedPlace: Place;
+  private placesLoadedSubject = new Subject<ApiResponse>();
+  private placeSelectedSubject = new Subject<Place>();
+
   places: Place[] = [];
   placesLoaded: Observable<ApiResponse>;
-
-  private placesLoadedSubscription = new Subject<ApiResponse>();
+  placeSelected: Observable<Place>;
 
   constructor(private geolocationService: GeolocationService) {
-    this.placesLoaded = this.placesLoadedSubscription.asObservable();
+    this.placesLoaded = this.placesLoadedSubject.asObservable();
+    this.placeSelected = this.placeSelectedSubject.asObservable();
+
+    setInterval(() => { this.reloadPossible = true; }, 10000);
   }
 
-  loadPlaces() {
-    this.placesLoadedSubscription.next({ status: ResponseStatus.Loading });
+  selectPlace(place: Place) {
+    this.selectedPlace = place;
+    this.placeSelectedSubject.next(place);
+  }
+
+  forceLoadPlaces() {
+    this.reloadPossible = false;
+    this.placesLoadedSubject.next({ status: ResponseStatus.Loading });
 
     this.geolocationService.getPlaces().subscribe((response: Place[]) => {
       this.places.splice(0, this.places.length);
       response.forEach(place => place.visible = false);
       this.places.push(...response);
-      this.placesLoadedSubscription.next({ status: ResponseStatus.Success });
+
+      if (this.selectedPlace != null) {
+        this.selectPlace(this.findById(this.selectedPlace.id));
+      }
+      if (this.places.length > 0 && this.selectedPlace == null) {
+        this.selectPlace(this.places[0]);
+      }
+
+      this.placesLoadedSubject.next({ status: ResponseStatus.Success });
     }, err => {
-      this.placesLoadedSubscription.next({ status: ResponseStatus.Error, error: err});
+      this.reloadPossible = true;
+      this.placesLoadedSubject.next({ status: ResponseStatus.Error, error: err});
     });
+  }
+
+  suggestLoadPlaces() {
+    if (this.reloadPossible) {
+      this.forceLoadPlaces();
+    }
   }
 
   addPlace(place: Place) {
@@ -45,5 +73,9 @@ export class PlacesService {
         }
       }
     });
+  }
+
+  findById(id: number): Place | undefined {
+    return this.places.find((place: Place) => place.id === id);
   }
 }

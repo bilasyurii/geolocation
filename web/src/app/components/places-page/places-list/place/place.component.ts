@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { BreakpointState, Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 import { PlacesService } from './../../../../services/places.service';
 import { Place } from 'src/app/interfaces/place.interface';
@@ -18,13 +19,15 @@ export class PlaceComponent {
                                     '(max-width: 720px)']);
 
   constructor(private placesService: PlacesService,
-              private breakpointObserver: BreakpointObserver) {}
+              private breakpointObserver: BreakpointObserver,
+              private router: Router) {}
 
   delete() {
     this.placesService.deletePlace(this.place.id);
   }
 
   showOnMap() {
-    console.log(this.place.name);
+    this.placesService.selectPlace(this.place);
+    this.router.navigate(['/map']);
   }
 }

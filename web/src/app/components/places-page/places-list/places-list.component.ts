@@ -1,15 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BreakpointObserver, BreakpointState, Breakpoints } from '@angular/cdk/layout';
-import { HttpErrorResponse } from '@angular/common/http';
 import { Observable, Subscription } from 'rxjs';
-import { MatDialog } from '@angular/material';
 
 import { ResponseStatus, ApiResponse } from './../../../interfaces/apiResponse.interface';
 import { PlacesService } from './../../../services/places.service';
 import { Place } from 'src/app/interfaces/place.interface';
 import { RequestError } from 'src/app/interfaces/requestError.interface';
-import { ErrorPopupComponent } from '../../error-popup/error-popup.component';
-import { WindowScrollingService } from 'src/app/services/windowScrolling.service';
+import { ErrorsService } from 'src/app/services/errors.service';
 
 
 @Component({
@@ -25,48 +22,29 @@ export class PlacesListComponent implements OnInit, OnDestroy {
   private placesSubscription: Subscription;
 
   constructor(private placesService: PlacesService,
-              private breakpointObserver: BreakpointObserver,
-              private dialog: MatDialog,
-              private windowScrolling: WindowScrollingService) { }
+              private errorsService: ErrorsService,
+              private breakpointObserver: BreakpointObserver) { }
 
   ngOnInit() {
+    this.places = this.placesService.places;
     this.setupLoadingHandling();
-    this.startLoading();
+    this.placesService.suggestLoadPlaces();
   }
 
   ngOnDestroy() {
     this.placesSubscription.unsubscribe();
   }
 
-  private startLoading() {
-    this.loading = true;
-    this.placesService.loadPlaces();
-  }
-
   private setupLoadingHandling() {
     this.placesSubscription = this.placesService.placesLoaded.subscribe((response: ApiResponse) => {
       if (response.status === ResponseStatus.Success) {
-        this.places = this.placesService.places;
         this.loading = false;
       } else if (response.status === ResponseStatus.Error) {
         this.loading = false;
-        this.showErrorPopup(response.error as RequestError);
+        this.errorsService.showErrorPopup(response.error as RequestError);
+      } else {
+        this.loading = true;
       }
-    });
-  }
-
-  private showErrorPopup(error: RequestError) {
-    this.windowScrolling.disable();
-
-    const popup = this.dialog.open(ErrorPopupComponent, {
-      width: '50vw',
-      minWidth: '300px',
-      maxWidth: '500px',
-      data: error
-    });
-
-    popup.afterClosed().subscribe(result => {
-      this.windowScrolling.enable();
     });
   }
 }
