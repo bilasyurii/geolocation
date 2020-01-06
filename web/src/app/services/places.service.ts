@@ -4,6 +4,7 @@ import { Subject, Observable } from 'rxjs';
 import { GeolocationService } from './geolocation.service';
 import { Place } from '../interfaces/place.interface';
 import { ApiResponse, ResponseStatus } from './../interfaces/apiResponse.interface';
+import { PlaceSelection } from '../interfaces/placeSelection.interface';
 
 
 @Injectable()
@@ -11,11 +12,11 @@ export class PlacesService {
   private reloadPossible = true;
   private selectedPlace: Place;
   private placesLoadedSubject = new Subject<ApiResponse>();
-  private placeSelectedSubject = new Subject<Place>();
+  private placeSelectedSubject = new Subject<PlaceSelection>();
 
   places: Place[] = [];
   placesLoaded: Observable<ApiResponse>;
-  placeSelected: Observable<Place>;
+  placeSelected: Observable<PlaceSelection>;
 
   constructor(private geolocationService: GeolocationService) {
     this.placesLoaded = this.placesLoadedSubject.asObservable();
@@ -24,9 +25,9 @@ export class PlacesService {
     setInterval(() => { this.reloadPossible = true; }, 10000);
   }
 
-  selectPlace(place: Place) {
-    this.selectedPlace = place;
-    this.placeSelectedSubject.next(place);
+  selectPlace(selection: PlaceSelection) {
+    this.selectedPlace = selection.place;
+    this.placeSelectedSubject.next(selection);
   }
 
   forceLoadPlaces() {
@@ -38,12 +39,14 @@ export class PlacesService {
       response.forEach(place => place.visible = false);
       this.places.push(...response);
 
+      let toBeSelected: Place;
       if (this.selectedPlace != null) {
-        this.selectPlace(this.findById(this.selectedPlace.id));
+        toBeSelected = this.findById(this.selectedPlace.id);
       }
-      if (this.places.length > 0 && this.selectedPlace == null) {
-        this.selectPlace(this.places[0]);
+      if (toBeSelected == null && this.places.length > 0) {
+        toBeSelected = this.places[0];
       }
+      this.selectPlace({ place: toBeSelected, isInitialization: true });
 
       this.placesLoadedSubject.next({ status: ResponseStatus.Success });
     }, err => {

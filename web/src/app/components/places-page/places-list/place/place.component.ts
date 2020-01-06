@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectorRef, Inject } from '@angular/core';
 import { BreakpointState, Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
@@ -27,7 +27,7 @@ export class PlaceComponent {
   }
 
   showOnMap() {
-    this.placesService.selectPlace(this.place);
+    this.placesService.selectPlace({ place: this.place, isInitialization: false });
     this.router.navigate(['/map']);
   }
 }

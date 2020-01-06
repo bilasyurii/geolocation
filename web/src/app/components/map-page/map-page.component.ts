@@ -1,8 +1,15 @@
-import { Component, OnInit, ChangeDetectorRef, Inject, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectorRef,
+  Inject,
+  OnDestroy
+} from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { PlacesService } from 'src/app/services/places.service';
 import { Place } from 'src/app/interfaces/place.interface';
+import { PlaceSelection } from 'src/app/interfaces/placeSelection.interface';
 import { ResponseStatus, ApiResponse } from 'src/app/interfaces/apiResponse.interface';
 import { RequestError } from 'src/app/interfaces/requestError.interface';
 import { ErrorsService } from 'src/app/services/errors.service';
@@ -14,17 +21,18 @@ import { ErrorsService } from 'src/app/services/errors.service';
   styleUrls: ['./map-page.component.scss']
 })
 export class MapPageComponent implements OnInit, OnDestroy {
+  private placesSubscription: Subscription;
+  private placeSelectedSubscription: Subscription;
+  private selectedPlace: Place;
+
   latitude = 49.839683;
   longitude = 24.029717;
   loading = false;
-  private placesSubscription: Subscription;
-  private placeSelectedSubscription: Subscription;
-
   places: Place[] = [];
 
   constructor(private placesService: PlacesService,
               private errorsService: ErrorsService,
-              @Inject(ChangeDetectorRef) private changeDetector: ChangeDetectorRef) { }
+              @Inject(ChangeDetectorRef) private changeDetector: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.places = this.placesService.places;
@@ -35,12 +43,22 @@ export class MapPageComponent implements OnInit, OnDestroy {
 
   private setupPlaceSelectionHandling() {
     this.placeSelectedSubscription = this.placesService.placeSelected.subscribe(
-      (place: Place) => {
+      (selection: PlaceSelection) => {
+        const place = selection.place;
         if (place != null) {
-          this.longitude = place.longitude;
-          this.latitude = place.latitude;
+          this.changeDetector.detectChanges();
 
-          place.visible = true;
+          if (selection.isInitialization) {
+            this.longitude = place.longitude;
+            this.latitude = place.latitude;
+          } else {
+            place.visible = true;
+          }
+
+          if (this.selectedPlace != null && this.selectedPlace !== place) {
+            this.selectedPlace.visible = false;
+          }
+          this.selectedPlace = place;
         }
       }
     );
@@ -61,6 +79,7 @@ export class MapPageComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.placesSubscription.unsubscribe();
+    this.placeSelectedSubscription.unsubscribe();
   }
 
   closeWindow(place: Place) {
@@ -68,7 +87,13 @@ export class MapPageComponent implements OnInit, OnDestroy {
     this.changeDetector.detectChanges();
   }
 
-  windowToggled(isOpen: boolean, place: Place) {
-    place.visible = isOpen;
+  windowToggled(isOpen: boolean, toggledPlace: Place) {
+    if (toggledPlace.visible !== isOpen) {
+      if (isOpen) {
+        this.placesService.selectPlace({ place: toggledPlace, isInitialization: false});
+      } else {
+        toggledPlace.visible = false;
+      }
+    }
   }
 }
