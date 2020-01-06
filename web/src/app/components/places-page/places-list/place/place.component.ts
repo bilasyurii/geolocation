@@ -23,4 +23,8 @@ export class PlaceComponent {
   delete() {
     this.placesService.deletePlace(this.place.id);
   }
+
+  showOnMap() {
+    console.log(this.place.name);
+  }
 }

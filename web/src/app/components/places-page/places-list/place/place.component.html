@@ -1,4 +1,7 @@
-<mat-card class="place-card">
+<mat-card
+  class="place-card"
+  (click)="showOnMap()"
+  appHoverElevation>
   <div 
     class="card-content"
     [ngClass]="{'content-in-row': !(isHandset | async)!.matches}">

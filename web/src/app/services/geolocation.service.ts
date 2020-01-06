@@ -49,7 +49,7 @@ export class GeolocationService {
       name: place.name,
       description: place.description,
       latitude: place.latitude,
-      longitude: place.latitude
+      longitude: place.longitude
     };
     return this.httpClient.post(this.url, dataToSend);
   }

@@ -12,6 +12,7 @@ import { MaterialModule } from './material.module';
 import { GeolocationService } from './services/geolocation.service';
 import { AutocompleteService } from './services/autocomplete.service';
 import { WindowScrollingService } from './services/windowScrolling.service';
+import { HoverElevationDirective } from './directives/hoverElevation.directive';
 import { AppComponent } from './components/app/app.component';
 import { PlacesPageComponent } from './components/places-page/places-page.component';
 import { MapPageComponent } from './components/map-page/map-page.component';
@@ -35,7 +36,8 @@ import { ErrorPopupComponent } from './components/error-popup/error-popup.compon
     PlacesListComponent,
     PlaceComponent,
     LoadingComponent,
-    ErrorPopupComponent
+    ErrorPopupComponent,
+    HoverElevationDirective
   ],
   imports: [
     BrowserModule,

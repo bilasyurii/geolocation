@@ -20,7 +20,7 @@
   </mat-sidenav>
 
   <mat-sidenav-content class="sidenav-container">
-    <mat-toolbar color="primary">
+    <mat-toolbar color="primary" class="nav-toolbar">
       <div
         class="hamburger"
         *ngIf="(isHandset | async)!.matches">
@@ -36,33 +36,33 @@
 
       <div class="spacer"></div>
 
-      <div>
-        <ul
-          class="nav-items"
-          *ngIf="!(isHandset | async)!.matches">
-          <li>
-            <a routerLink="/" class="nav-item-link">
-              <mat-icon class="icon nav-item-icon">home</mat-icon>
+      <ul
+        class="nav-items"
+        *ngIf="!(isHandset | async)!.matches">
+        <li
+          routerLinkActive="nav-item-active"
+          [routerLinkActiveOptions]="{exact: true}">
+          <a routerLink="/" class="nav-item-link">
+            <mat-icon class="icon nav-item-icon">home</mat-icon>
 
-              <span class="label">Home</span>
-            </a>
-          </li>
-          <li>
-            <a routerLink="/places" class="nav-item-link">
-              <mat-icon class="icon nav-item-icon">room</mat-icon>
+            <span class="label">Home</span>
+          </a>
+        </li>
+        <li routerLinkActive="nav-item-active">
+          <a routerLink="/places" class="nav-item-link">
+            <mat-icon class="icon nav-item-icon">room</mat-icon>
 
-              <span class="label">Places</span>
-            </a>
-          </li>
-          <li>
-            <a routerLink="/map" class="nav-item-link">
-              <mat-icon class="icon nav-item-icon">map</mat-icon>
+            <span class="label">Places</span>
+          </a>
+        </li>
+        <li routerLinkActive="nav-item-active">
+          <a routerLink="/map" class="nav-item-link">
+            <mat-icon class="icon nav-item-icon">map</mat-icon>
 
-              <span class="label">Map</span>
-            </a>
-          </li>
-        </ul>
-      </div>
+            <span class="label">Map</span>
+          </a>
+        </li>
+      </ul>
     </mat-toolbar>
     <ng-content></ng-content>
   </mat-sidenav-content>
