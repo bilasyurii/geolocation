@@ -5,8 +5,6 @@ import { Observable, Subscription } from 'rxjs';
 import { ResponseStatus, ApiResponse } from './../../../interfaces/apiResponse.interface';
 import { PlacesService } from './../../../services/places.service';
 import { Place } from 'src/app/interfaces/place.interface';
-import { RequestError } from 'src/app/interfaces/requestError.interface';
-import { ErrorsService } from 'src/app/services/errors.service';
 
 
 @Component({
@@ -22,7 +20,6 @@ export class PlacesListComponent implements OnInit, OnDestroy {
   private placesSubscription: Subscription;
 
   constructor(private placesService: PlacesService,
-              private errorsService: ErrorsService,
               private breakpointObserver: BreakpointObserver) { }
 
   ngOnInit() {
@@ -41,7 +38,6 @@ export class PlacesListComponent implements OnInit, OnDestroy {
         this.loading = false;
       } else if (response.status === ResponseStatus.Error) {
         this.loading = false;
-        this.errorsService.showErrorPopup(response.error as RequestError);
       } else {
         this.loading = true;
       }

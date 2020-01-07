@@ -11,8 +11,6 @@ import { PlacesService } from 'src/app/services/places.service';
 import { Place } from 'src/app/interfaces/place.interface';
 import { PlaceSelection } from 'src/app/interfaces/placeSelection.interface';
 import { ResponseStatus, ApiResponse } from 'src/app/interfaces/apiResponse.interface';
-import { RequestError } from 'src/app/interfaces/requestError.interface';
-import { ErrorsService } from 'src/app/services/errors.service';
 
 
 @Component({
@@ -31,7 +29,6 @@ export class MapPageComponent implements OnInit, OnDestroy {
   places: Place[] = [];
 
   constructor(private placesService: PlacesService,
-              private errorsService: ErrorsService,
               @Inject(ChangeDetectorRef) private changeDetector: ChangeDetectorRef) {}
 
   ngOnInit() {
@@ -70,7 +67,6 @@ export class MapPageComponent implements OnInit, OnDestroy {
         this.loading = false;
       } else if (response.status === ResponseStatus.Error) {
         this.loading = false;
-        this.errorsService.showErrorPopup(response.error as RequestError);
       } else {
         this.loading = true;
       }

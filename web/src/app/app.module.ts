@@ -1,10 +1,9 @@
-import { PreventBubblingDirective } from './directives/preventBubbline.directive';
 import { environment } from './../environments/environment.prod';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AgmCoreModule } from '@agm/core';
 import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouteReuseStrategy } from '@angular/router';
@@ -16,6 +15,8 @@ import { AutocompleteService } from './services/autocomplete.service';
 import { WindowScrollingService } from './services/windowScrolling.service';
 import { ErrorsService } from './services/errors.service';
 import { HoverElevationDirective } from './directives/hoverElevation.directive';
+import { PreventBubblingDirective } from './directives/preventBubbline.directive';
+import { ErrorsInterceptor } from './interceptors/errors.interceptor';
 import { AppRouteReuseStrategy } from './strategies/appRouteReuse.strategy';
 import { AppComponent } from './components/app/app.component';
 import { PlacesPageComponent } from './components/places-page/places-page.component';
@@ -58,14 +59,19 @@ import { ErrorPopupComponent } from './components/error-popup/error-popup.compon
     AgmSnazzyInfoWindowModule
   ],
   providers: [
+    WindowScrollingService,
+    ErrorsService,
     GeolocationService,
     HttpClient,
-    WindowScrollingService,
     AutocompleteService,
-    ErrorsService,
     {
       provide: RouteReuseStrategy,
       useClass: AppRouteReuseStrategy
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorsInterceptor,
+      multi: true
     }
   ],
   bootstrap: [AppComponent],
