@@ -1,3 +1,4 @@
+import { PreventBubblingDirective } from './directives/preventBubbline.directive';
 import { environment } from './../environments/environment.prod';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -40,7 +41,8 @@ import { ErrorPopupComponent } from './components/error-popup/error-popup.compon
     PlaceComponent,
     LoadingComponent,
     ErrorPopupComponent,
-    HoverElevationDirective
+    HoverElevationDirective,
+    PreventBubblingDirective
   ],
   imports: [
     BrowserModule,
