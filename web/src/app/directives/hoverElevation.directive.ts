@@ -13,8 +13,8 @@ import {
   selector: '[appHoverElevation]'
 })
 export class HoverElevationDirective implements OnChanges {
-  @Input() defaultElevation = 2;
-  @Input() hoverElevation = 6;
+  @Input() defaultElevation = 1;
+  @Input() hoverElevation = 5;
 
   constructor(private parent: ElementRef, private renderer: Renderer2) {
     this.setElevation(this.defaultElevation);

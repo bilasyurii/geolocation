@@ -21,18 +21,19 @@
             formControlName="name"
             required>
 
-          <mat-error class="form-error" *ngIf="name.invalid">{{getErrorMessage(name)}}</mat-error>
-        </mat-form-field>
+          <mat-error
+            class="form-error"
+            *ngIf="name.invalid">
+            {{getErrorMessage(name)}}
+          </mat-error>
 
-        <mat-form-field class="form-field">
-          <input 
-            matInput 
-            placeholder="Longitude" 
-            type="text" 
-            formControlName="longitude"
-            required>
-          
-          <mat-error class="form-error" *ngIf="longitude.invalid">{{getErrorMessage(longitude)}}</mat-error>
+          <mat-icon
+            mat-icon-button
+            matSuffix
+            matTooltip="Maximum length of the name is 32 symbols."
+            matTooltipPosition="above">
+            help_outline
+          </mat-icon>
         </mat-form-field>
 
         <mat-form-field class="form-field">
@@ -43,7 +44,42 @@
             formControlName="latitude"
             required>
 
-          <mat-error class="form-error" *ngIf="latitude.invalid">{{getErrorMessage(latitude)}}</mat-error>
+          <mat-error
+            class="form-error"
+            *ngIf="latitude.invalid">
+            {{getErrorMessage(latitude)}}
+          </mat-error>
+
+          <mat-icon
+            mat-icon-button
+            matSuffix
+            matTooltip="Latitude must be between -90 and 90 inclusive. You can only use digits and - . symbols.'"
+            matTooltipPosition="above">
+            help_outline
+          </mat-icon>
+        </mat-form-field>
+
+        <mat-form-field class="form-field">
+          <input 
+            matInput 
+            placeholder="Longitude" 
+            type="text" 
+            formControlName="longitude"
+            required>
+          
+          <mat-error
+            class="form-error"
+            *ngIf="longitude.invalid">
+            {{getErrorMessage(longitude)}}
+          </mat-error>
+
+          <mat-icon
+            mat-icon-button
+            matSuffix
+            matTooltip="Longitude must be between -180 and 180 inclusive. You can only use digits and - . symbols.'"
+            matTooltipPosition="above">
+            help_outline
+          </mat-icon>
         </mat-form-field>
         
         <mat-form-field class="form-field">
@@ -56,7 +92,19 @@
 
           <mat-hint align="end">{{descriptionElement.value?.length || 0}}/256</mat-hint>
 
-          <mat-error class="form-error" *ngIf="description.invalid">{{getErrorMessage(description)}}</mat-error>
+          <mat-error
+            class="form-error"
+            *ngIf="description.invalid">
+            {{getErrorMessage(description)}}
+          </mat-error>
+
+          <mat-icon
+            mat-icon-button
+            matSuffix
+            matTooltip="Description is optional. It's length can be up to 256 symbols."
+            matTooltipPosition="above">
+            help_outline
+          </mat-icon>
         </mat-form-field>
 
         <button 
@@ -96,7 +144,11 @@
             required
             (input)="onCityInput($event)">
 
-          <mat-error class="form-error" *ngIf="city.invalid">{{getErrorMessage(city)}}</mat-error>
+          <mat-error
+            class="form-error"
+            *ngIf="city.invalid">
+            {{getErrorMessage(city)}}
+          </mat-error>
 
           <mat-autocomplete
             #autoComplete="matAutocomplete"
@@ -108,6 +160,14 @@
               {{suggestion.name}}
             </mat-option>
           </mat-autocomplete>
+
+          <mat-icon
+            mat-icon-button
+            matSuffix
+            matTooltip="You can type here a name of the city to search for. You will have to pick one of the suggestions displayed below the field."
+            matTooltipPosition="above">
+            help_outline
+          </mat-icon>
         </mat-form-field>
 
         <mat-form-field class="form-field">
@@ -117,7 +177,19 @@
             type="text" 
             formControlName="name">
 
-          <mat-error class="form-error" *ngIf="name2.invalid">{{getErrorMessage(name2)}}</mat-error>
+          <mat-error
+            class="form-error"
+            *ngIf="name2.invalid">
+            {{getErrorMessage(name2)}}
+          </mat-error>
+
+          <mat-icon
+            mat-icon-button
+            matSuffix
+            matTooltip="This field is optional. It allows you to set custom name for a city which was found using the field above. Maximum length of the name is 32 symbols."
+            matTooltipPosition="above">
+            help_outline
+          </mat-icon>
         </mat-form-field>
 
         <mat-form-field class="form-field">
@@ -130,7 +202,19 @@
 
           <mat-hint align="end">{{descriptionElement2.value?.length || 0}}/256</mat-hint>
 
-          <mat-error class="form-error" *ngIf="description2.invalid">{{getErrorMessage(description2)}}</mat-error>
+          <mat-error
+            class="form-error"
+            *ngIf="description2.invalid">
+            {{getErrorMessage(description2)}}
+          </mat-error>
+
+          <mat-icon
+            mat-icon-button
+            matSuffix
+            matTooltip="Description is optional. It's length can be up to 256 symbols."
+            matTooltipPosition="above">
+            help_outline
+          </mat-icon>
         </mat-form-field>
 
         <button 

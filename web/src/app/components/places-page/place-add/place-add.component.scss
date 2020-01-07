@@ -21,3 +21,9 @@
 .place-add-container {
   padding: 0;
 }
+
+:host ::ng-deep {
+  .mat-form-field-required-marker {
+    color: red;
+  }
+}
