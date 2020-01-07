@@ -24,7 +24,6 @@ import { MapPageComponent } from './components/map-page/map-page.component';
 import { HeaderComponent } from './components/header/header.component';
 import { PlaceAddComponent } from './components/places-page/place-add/place-add.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
-import { HomePageComponent } from './components/home-page/home-page.component';
 import { PlacesListComponent } from './components/places-page/places-list/places-list.component';
 import { PlaceComponent } from './components/places-page/places-list/place/place.component';
 import { LoadingComponent } from './components/loading/loading.component';
@@ -39,7 +38,6 @@ import { ErrorPopupComponent } from './components/error-popup/error-popup.compon
     HeaderComponent,
     PlaceAddComponent,
     NotFoundComponent,
-    HomePageComponent,
     PlacesListComponent,
     PlaceComponent,
     LoadingComponent,
