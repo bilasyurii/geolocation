@@ -93,8 +93,12 @@ export class PlaceAddComponent implements OnInit, OnDestroy {
     const formData = this.formWithCity.value;
 
     const formNameData = formData.name as string;
-
-    const placeName = formNameData.length > 0 ? formNameData : formData.city.name;
+    let placeName: string;
+    if (formNameData != null && formNameData.length > 0) {
+      placeName = formNameData;
+    } else {
+      placeName = formData.city.name.substring(0, 32);
+    }
 
     this.placesService.addPlace({
       name: placeName,

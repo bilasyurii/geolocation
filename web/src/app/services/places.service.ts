@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 
 import { GeolocationService } from './geolocation.service';
+import { ErrorsService } from './errors.service';
 import { Place } from '../interfaces/place.interface';
 import { ApiResponse, ResponseStatus } from './../interfaces/apiResponse.interface';
 import { PlaceSelection } from '../interfaces/placeSelection.interface';
@@ -18,7 +19,8 @@ export class PlacesService {
   placesLoaded: Observable<ApiResponse>;
   placeSelected: Observable<PlaceSelection>;
 
-  constructor(private geolocationService: GeolocationService) {
+  constructor(private geolocationService: GeolocationService,
+              private errorsService: ErrorsService) {
     this.placesLoaded = this.placesLoadedSubject.asObservable();
     this.placeSelected = this.placeSelectedSubject.asObservable();
 
@@ -65,6 +67,14 @@ export class PlacesService {
     this.geolocationService.addPlace(place).subscribe((response: Place) => {
       response.visible = false;
       this.places.push(response);
+    }, error => {
+      if (error.name && error.name === 'HttpErrorResponse') {
+        this.errorsService.showErrorPopup({
+          message: error.statusText,
+          code: error.status,
+          howToSolve: error.error.Information[0].ErrorMessage
+        });
+      }
     });
   }
 
