@@ -26,10 +26,8 @@ export class PlaceAddComponent implements OnInit, OnDestroy {
   private location: PlaceLocation;
   private locationSubscription: Subscription;
 
-  constructor(
-    private placesService: PlacesService,
-    private autocompleteService: AutocompleteService
-  ) {
+  constructor(private placesService: PlacesService,
+              private autocompleteService: AutocompleteService) {
     this.InitForms();
     this.setupLocationHandling();
   }

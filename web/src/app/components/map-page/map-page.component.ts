@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs';
 import {
   Component,
   OnInit,
@@ -5,7 +6,6 @@ import {
   Inject,
   OnDestroy
 } from '@angular/core';
-import { Subscription } from 'rxjs';
 
 import { PlacesService } from 'src/app/services/places.service';
 import { Place } from 'src/app/interfaces/place.interface';

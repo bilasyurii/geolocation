@@ -6,6 +6,7 @@
 
         <span class="label">Places</span>
       </a>
+
       <a mat-list-item routerLink="/map" class="sidenav-item-link">
         <mat-icon class="icon nav-item-icon">map</mat-icon>
 
@@ -19,8 +20,9 @@
       <div
         class="hamburger"
         *ngIf="(isHandset | async)!.matches">
+
         <button mat-icon-button (click)="sidenav.toggle()">
-          <mat-icon >menu</mat-icon>
+          <mat-icon>menu</mat-icon>
         </button>
       </div>
 
@@ -34,6 +36,7 @@
       <ul
         class="nav-items"
         *ngIf="!(isHandset | async)!.matches">
+        
         <li routerLinkActive="nav-item-active">
           <a routerLink="/places">
             <span class="nav-item-link">
@@ -43,6 +46,7 @@
             </span>
           </a>
         </li>
+        
         <li routerLinkActive="nav-item-active">
           <a routerLink="/map">
             <span class="nav-item-link">
@@ -54,6 +58,8 @@
         </li>
       </ul>
     </mat-toolbar>
+
     <ng-content></ng-content>
+    
   </mat-sidenav-content>
 </mat-sidenav-container>

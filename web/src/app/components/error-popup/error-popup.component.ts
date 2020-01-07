@@ -1,6 +1,8 @@
-import { RequestError } from './../../interfaces/requestError.interface';
 import { Component, Inject, AfterViewInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+
+import { RequestError } from './../../interfaces/requestError.interface';
+
 
 @Component({
   selector: 'app-error-popup',
