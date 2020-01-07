@@ -12,7 +12,8 @@ import {
   MatDialogModule,
   MatExpansionModule,
   MatAutocompleteModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatSnackBarModule
 } from '@angular/material';
 
 
@@ -30,7 +31,8 @@ import {
     MatDialogModule,
     MatExpansionModule,
     MatAutocompleteModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatSnackBarModule
   ],
   exports: [
     MatSidenavModule,
@@ -45,7 +47,8 @@ import {
     MatDialogModule,
     MatExpansionModule,
     MatAutocompleteModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatSnackBarModule
   ]
 })
 export class MaterialModule { }

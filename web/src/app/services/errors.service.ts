@@ -1,4 +1,4 @@
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { Injectable } from '@angular/core';
 
 import { WindowScrollingService } from './windowScrolling.service';
@@ -9,20 +9,33 @@ import { ErrorPopupComponent } from '../components/error-popup/error-popup.compo
 @Injectable()
 export class ErrorsService {
   constructor(private dialog: MatDialog,
+              private snackBar: MatSnackBar,
               private windowScrolling: WindowScrollingService) {}
 
   showErrorPopup(error: RequestError) {
-    this.windowScrolling.disable();
+    let message = 'Error: ' + error.message;
+    if (message.length > 32) {
+      message = error.message;
+    }
+    if (message.length > 32) {
+      message = message.substring(0, 29) + '...';
+    }
 
-    const popup = this.dialog.open(ErrorPopupComponent, {
-      width: '50vw',
-      minWidth: '300px',
-      maxWidth: '500px',
-      data: error
-    });
+    const snackBarRef = this.snackBar.open(message, 'View details', { duration: 5000 });
 
-    popup.afterClosed().subscribe(result => {
-      this.windowScrolling.enable();
+    snackBarRef.onAction().subscribe(() => {
+      this.windowScrolling.disable();
+
+      const popup = this.dialog.open(ErrorPopupComponent, {
+        width: '50vw',
+        minWidth: '300px',
+        maxWidth: '500px',
+        data: error
+      });
+
+      popup.afterClosed().subscribe(result => {
+        this.windowScrolling.enable();
+      });
     });
   }
 }

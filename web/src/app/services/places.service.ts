@@ -1,3 +1,4 @@
+import { RequestError } from './../interfaces/requestError.interface';
 import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 
@@ -69,11 +70,25 @@ export class PlacesService {
       this.places.push(response);
     }, error => {
       if (error.name && error.name === 'HttpErrorResponse') {
-        this.errorsService.showErrorPopup({
+
+        let solution: string;
+        if (error.error.Information != null && error.error.Information[0] != null) {
+          solution = error.error.Information[0].ErrorMessage;
+        } else {
+          solution = `The server may not be working or there is
+                      some another problem with it. Try again later.`;
+        }
+
+        const requestError: RequestError = {
           message: error.statusText,
-          code: error.status,
-          howToSolve: error.error.Information[0].ErrorMessage
-        });
+          howToSolve: solution
+        };
+
+        if (error.status !== 0) {
+          requestError.code = error.status;
+        }
+
+        this.errorsService.showErrorPopup(requestError);
       }
     });
   }
