@@ -87,6 +87,29 @@ export class PlaceAddComponent implements OnInit, OnDestroy {
     return this.autocompleteService.getSugestions(input);
   }
 
+  private loadLocation(suggestion: PlaceSuggestion) {
+    this.locationLoading = true;
+    this.autocompleteService.getLocation(suggestion.placeId);
+  }
+
+  onCityInput(val) {
+    this.formWithCity.get('city').setErrors({ noCitySelected: true }, { emitEvent: true });
+  }
+
+  selectSuggestion(suggestion: PlaceSuggestion) {
+    const control = this.formWithCity.get('city');
+    const errors = control.errors;
+    if (errors) {
+      delete errors.noCitySelected;
+      if (!Object.keys(errors).length) {
+        control.setErrors(null, { emitEvent: true });
+      } else {
+        control.setErrors(errors, { emitEvent: true });
+      }
+    }
+    this.loadLocation(suggestion);
+  }
+
   submitWithCoords() {
     this.placesService.addPlace(this.formWithCoords.value);
   }
@@ -105,6 +128,7 @@ export class PlaceAddComponent implements OnInit, OnDestroy {
           placeName = placeName.substring(0, 29) + '...';
         }
       } else {
+        this.formWithCity.get('city').setErrors({ noCitySelected: true }, { emitEvent: true });
         return;
       }
     }
@@ -115,11 +139,6 @@ export class PlaceAddComponent implements OnInit, OnDestroy {
       latitude: this.location.latitude,
       longitude: this.location.longitude
     });
-  }
-
-  loadLocation(suggestion: PlaceSuggestion) {
-    this.locationLoading = true;
-    this.autocompleteService.getLocation(suggestion.placeId);
   }
 
   suggestionTransform(suggestion: PlaceSuggestion) {
@@ -158,6 +177,10 @@ export class PlaceAddComponent implements OnInit, OnDestroy {
     if (element.hasError('required')) {
 
       return 'You must enter a value.';
+
+    } else if (element.hasError('noCitySelected')) {
+
+      return 'You must select a city from autocomplete\'s suggestions.';
 
     } else if (element.hasError('pattern')) {
 

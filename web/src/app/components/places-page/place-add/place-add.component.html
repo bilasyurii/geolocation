@@ -93,13 +93,14 @@
             type="text" 
             formControlName="city"
             [matAutocomplete]="autoComplete"
-            required>
+            required
+            (input)="onCityInput($event)">
 
           <mat-error class="form-error" *ngIf="city.invalid">{{getErrorMessage(city)}}</mat-error>
 
           <mat-autocomplete
             #autoComplete="matAutocomplete"
-            (optionSelected)='loadLocation($event.option.value)'
+            (optionSelected)='selectSuggestion($event.option.value)'
             [displayWith]='suggestionTransform'>
             <mat-option
               *ngFor="let suggestion of (suggestions | async)"
