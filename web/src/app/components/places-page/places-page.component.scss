@@ -4,21 +4,24 @@
   margin: 20px;
 }
 
-.container-in-row {
+.places-list-block {
+  display: flex;
   flex-direction: row;
   align-items: stretch;
 }
 
 .places-add-block {
-  flex: 1;
   margin-bottom: 20px;
 }
 
-.places-list-block {
-  flex: 1;
-  display: flex;
+.container-in-row {
   flex-direction: row;
   align-items: stretch;
+
+  .places-list-block, .places-add-block {
+    max-width: calc(50% - 10px);
+    flex-grow: 1;
+  }
 }
 
 .places-add-margin {

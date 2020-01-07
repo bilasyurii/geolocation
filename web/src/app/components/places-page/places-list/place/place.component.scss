@@ -1,12 +1,20 @@
 .place-title {
   font-size: 20px;
   font-weight: 500;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  word-wrap: break-word;
+  display: inline-block;
 }
 
-.icon-button {
-  padding: 0 6px;
-  min-width: 0;
-  align-self: center;
+.delete-button {  
+  min-width: 30px;
+  padding: 6px 2px;
+  color: #fff;
+  line-height: 16px;
+  box-sizing: content-box;
 }
 
 .place-card {
@@ -22,6 +30,7 @@
   flex-direction: column;
   flex-grow: 1;
   margin-right: 20px;
+  min-width: 0;
 }
 
 .coordinates-block {
