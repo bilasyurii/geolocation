@@ -6,7 +6,9 @@
     class="card-content"
     [ngClass]="{'content-in-row': !(isHandset | async)!.matches}">
     
-    <span class="place-title">
+    <span
+      [title]="place.name"
+      class="place-title">
       {{ place.name }}
     </span>
 
@@ -25,6 +27,7 @@
   <button
     mat-raised-button
     appPreventBubbling
+    title="Delete"
     color="warn"
     class="delete-button"
     (click)="delete()">

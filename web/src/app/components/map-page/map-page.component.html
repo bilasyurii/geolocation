@@ -30,6 +30,7 @@
               <div class="buttons-wrapper">
 
                 <button
+                  title="Close"
                   mat-raised-button
                   color="warn"
                   class="info-window-button"
@@ -38,6 +39,7 @@
                 </button>
 
                 <button
+                  title="Edit"
                   mat-raised-button
                   color="primary"
                   class="info-window-button">
@@ -49,7 +51,7 @@
             <div class="info-container">
 
               <mat-toolbar class="info-window-header">
-                <p>{{place.name}}</p>
+                <p [title]="place.name">{{place.name}}</p>
               </mat-toolbar>
   
               <div class="info-window-content">
