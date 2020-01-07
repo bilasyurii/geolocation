@@ -55,11 +55,13 @@ export class PlaceAddComponent implements OnInit, OnDestroy {
       ]),
       latitude: new FormControl(null, [
         Validators.required,
+        Validators.pattern(/^[-+]?[0-9]*\.?[0-9]+$/),
         Validators.min(-90),
         Validators.max(90)
       ]),
       longitude: new FormControl(null, [
         Validators.required,
+        Validators.pattern(/^[-+]?[0-9]*\.?[0-9]+$/),
         Validators.min(-180),
         Validators.max(180)
       ]),
@@ -156,6 +158,10 @@ export class PlaceAddComponent implements OnInit, OnDestroy {
     if (element.hasError('required')) {
 
       return 'You must enter a value.';
+
+    } else if (element.hasError('pattern')) {
+
+      return 'You must enter decimal value (only numbers, \'.\' and \'-\').';
 
     } else if (element.hasError('maxlength')) {
 
