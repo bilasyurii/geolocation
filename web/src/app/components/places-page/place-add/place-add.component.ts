@@ -109,7 +109,13 @@ export class PlaceAddComponent implements OnInit, OnDestroy {
   }
 
   submitWithCoords() {
-    this.placesService.addPlace(this.formWithCoords.value);
+    const formData = this.formWithCoords.value;
+    this.placesService.addPlace({
+      name: formData.name,
+      description: formData.description,
+      latitude: +formData.latitude,
+      longitude: +formData.longitude
+    });
   }
 
   submitWithCity() {
