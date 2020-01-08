@@ -49,7 +49,7 @@ EntityFramework Core
  - Try to run: `ng serve`
  - If you get an error *Could not find module "@angular-devkit/build-angular"*, run: `npm update`
 - After running `ng serve` you should be able to use an app on:
-`fwefef`
+`http://localhost:4200/` (I hope so)
  - If it doesn't work:
 	 - Find *src/environments* folder
 	 - Open *environment.ts* file
