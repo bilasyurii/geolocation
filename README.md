@@ -70,7 +70,7 @@ EntityFramework Core
 
 > Instead of manual entering of coordinates I can use autocomplete control connected to Google Places API where I can type in a name of city and select it from suggestions given by Google. Latitude and Longitude will be taken from Google Places API response
 
- - Task which is quoted below is implemented, of course. But I also want to make clear something. Google Places API is good, but it gives you predefined view of autocomplete and it also shows *Powered by Google* sign. I managed to do my autocomplete in such an easy way - you can see proof of it in commits (if you like), but I decided to make my life more complicated and make my own look of that autocomplete. I used Angular materials for it. So to get info from Google withour having their annoying autocomplete visible I now send requests using Google Autocomplete Service. But it had some problems - it only autocompletes but doesn't give you coordinates, so because of that I also use Google Places Service :)
+ - Task which is quoted above is implemented, of course. But I also want to make clear something. Google Places API is good, but it gives you predefined view of autocomplete and it also shows *Powered by Google* sign. I managed to do my autocomplete in such an easy way - you can see proof of it in commits (if you like), but I decided to make my life more complicated and make my own look of that autocomplete. I used Angular materials for it. So to get info from Google withour having their annoying autocomplete visible I now send requests using Google Autocomplete Service. But it had some problems - it only autocompletes but doesn't give you coordinates, so because of that I also use Google Places Service :)
 
 # Dependencies
 
